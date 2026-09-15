@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>マクロ経済学 演習｜ERE対策</title>
+<style>
+:root{
+  --ink:#16263c;
+  --ink-soft:#5d6b7d;
+  --paper:#e9edf2;
+  --surface:#ffffff;
+  --line:#d3dbe4;
+  --indigo:#274d8c;
+  --indigo-soft:#e7eef9;
+  --correct:#1d6f52;
+  --correct-soft:#e3efe9;
+  --wrong:#a4383a;
+  --wrong-soft:#f7e9e9;
+  --gen:#8d6414;
+  --gen-soft:#f6efe1;
+  --mincho:"Hiragino Mincho ProN","Yu Mincho","YuMincho","MS PMincho",serif;
+  --gothic:"Hiragino Kaku Gothic ProN","Yu Gothic","YuGothic","Noto Sans JP","Meiryo",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--gothic);
+  font-size:16px;
+  line-height:1.75;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{max-width:660px;margin:0 auto;padding:0 16px 64px}
+
+/* header */
+.bar{
+  position:sticky;top:0;z-index:10;
+  background:rgba(233,237,242,.94);
+  backdrop-filter:saturate(1.4) blur(6px);
+  border-bottom:1px solid var(--line);
+}
+.bar-in{max-width:660px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px;min-height:48px}
+.bar h2{font-family:var(--mincho);font-size:16px;font-weight:600;margin:0;letter-spacing:.04em}
+.back{
+  appearance:none;border:1px solid var(--line);background:var(--surface);
+  color:var(--ink);font-family:inherit;font-size:13px;
+  padding:5px 11px;border-radius:5px;cursor:pointer;flex:none;
+}
+.back:hover{border-color:var(--indigo);color:var(--indigo)}
+.spacer{flex:1}
+.timer{font-variant-numeric:tabular-nums;font-size:15px;color:var(--ink-soft)}
+.timer.low{color:var(--wrong);font-weight:700}
+
+/* hero */
+.hero{padding:34px 0 22px}
+.hero h1{
+  font-family:var(--mincho);font-weight:600;
+  font-size:30px;line-height:1.35;margin:0 0 10px;letter-spacing:.03em;
+}
+.hero p{margin:0;color:var(--ink-soft);font-size:14.5px;max-width:44em}
+
+/* tag cards */
+.tags{display:flex;flex-direction:column;gap:12px;margin:22px 0 0}
+.tag{
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  padding:16px 16px 14px;text-align:left;width:100%;
+  font-family:inherit;color:inherit;cursor:pointer;display:block;
+}
+.tag:hover{border-color:var(--indigo)}
+.tag:disabled{cursor:default;opacity:.55}
+.tag:disabled:hover{border-color:var(--line)}
+.tag-head{display:flex;align-items:baseline;gap:10px}
+.tag-name{font-family:var(--mincho);font-size:18px;font-weight:600;letter-spacing:.03em}
+.tag-count{font-size:12.5px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.tag-topics{font-size:13px;color:var(--ink-soft);margin:4px 0 12px;line-height:1.6}
+.meter{height:5px;background:var(--paper);border-radius:3px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--indigo);width:0}
+.tag-stat{font-size:12.5px;color:var(--ink-soft);margin-top:6px;font-variant-numeric:tabular-nums}
+
+/* section heading */
+.sec{font-family:var(--mincho);font-size:14px;letter-spacing:.08em;color:var(--ink-soft);margin:34px 0 12px;font-weight:600}
+
+/* buttons */
+.row{display:flex;flex-direction:column;gap:10px}
+.btn{
+  appearance:none;font-family:inherit;font-size:15px;cursor:pointer;
+  background:var(--surface);border:1px solid var(--line);color:var(--ink);
+  padding:13px 16px;border-radius:8px;text-align:left;line-height:1.5;
+}
+.btn:hover{border-color:var(--indigo)}
+.btn b{font-weight:600;display:block}
+.btn span{font-size:12.5px;color:var(--ink-soft)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn:disabled:hover{border-color:var(--line)}
+.btn.primary{background:var(--indigo);border-color:var(--indigo);color:#fff;text-align:center;font-weight:600}
+.btn.primary:hover{background:#1e3d72}
+.btn.primary span{color:#c9d8f0}
+
+/* question */
+.qmeta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:22px 0 10px}
+.chip{font-size:11.5px;padding:3px 9px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink-soft)}
+.chip.gen{background:var(--gen-soft);border-color:#e4d6b6;color:var(--gen)}
+.chip.no{font-variant-numeric:tabular-nums;background:var(--indigo-soft);border-color:#cddcf3;color:var(--indigo)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px 18px}
+.stem{font-size:16.5px;line-height:1.85;margin:0 0 4px}
+.stem .give{display:block;margin-top:10px;padding-left:14px;border-left:2px solid var(--indigo-soft);font-variant-numeric:tabular-nums}
+.choices{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.ch{
+  display:flex;gap:11px;align-items:flex-start;width:100%;text-align:left;
+  font-family:inherit;font-size:15.5px;line-height:1.7;color:inherit;
+  background:var(--surface);border:1px solid var(--line);border-radius:7px;
+  padding:11px 13px;cursor:pointer;
+}
+.ch:hover{border-color:var(--indigo);background:var(--indigo-soft)}
+.ch .n{
+  flex:none;width:23px;height:23px;border-radius:4px;border:1px solid var(--line);
+  display:grid;place-items:center;font-size:13px;font-variant-numeric:tabular-nums;
+  color:var(--ink-soft);margin-top:2px;
+}
+.ch .t{flex:1;font-variant-numeric:tabular-nums}
+.ch[disabled]{cursor:default}
+.ch[disabled]:hover{border-color:var(--line);background:var(--surface)}
+.ch.picked{border-color:var(--indigo);background:var(--indigo-soft)}
+.ch.ok{border-color:var(--correct);background:var(--correct-soft)}
+.ch.ok .n{border-color:var(--correct);background:var(--correct);color:#fff}
+.ch.ng{border-color:var(--wrong);background:var(--wrong-soft)}
+.ch.ng .n{border-color:var(--wrong);background:var(--wrong);color:#fff}
+.ch .note{display:block;font-size:13px;color:var(--ink-soft);margin-top:5px;line-height:1.65}
+
+.verdict{font-family:var(--mincho);font-size:17px;font-weight:600;margin:18px 0 6px;letter-spacing:.04em}
+.verdict.ok{color:var(--correct)}
+.verdict.ng{color:var(--wrong)}
+.explain{font-size:14.5px;line-height:1.85;color:var(--ink);margin:0;font-variant-numeric:tabular-nums}
+.explain .f{display:block;margin:8px 0;padding:9px 12px;background:var(--paper);border-radius:6px;font-size:14px}
+.after{margin-top:20px}
+
+/* result */
+.score{font-family:var(--mincho);font-size:44px;font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.score small{font-size:18px;color:var(--ink-soft);font-weight:400}
+.bars{margin:20px 0 0;display:flex;flex-direction:column;gap:14px}
+.bar-row .lab{display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:5px}
+.bar-row .lab span:last-child{color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.track{height:8px;background:var(--paper);border-radius:4px;overflow:hidden}
+.track i{display:block;height:100%;background:var(--indigo)}
+textarea{
+  width:100%;min-height:150px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:12.5px;line-height:1.7;padding:12px;border:1px solid var(--line);
+  border-radius:8px;background:var(--surface);color:var(--ink);resize:vertical;
+}
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:10px;padding:24px 18px;text-align:center;color:var(--ink-soft);font-size:14.5px}
+
+/* formula sheet */
+.fs h3{font-family:var(--mincho);font-size:17px;font-weight:600;margin:26px 0 8px;letter-spacing:.03em}
+.fs dl{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:6px 16px}
+.fs dt{font-size:13.5px;color:var(--ink-soft);margin-top:12px}
+.fs dd{margin:2px 0 12px;font-size:15.5px;font-variant-numeric:tabular-nums}
+.fs dd em{font-style:normal;font-size:13px;color:var(--ink-soft);display:block;margin-top:2px}
+
+.gtab{margin:12px 0 2px;overflow-x:auto}
+.gtab table{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums}
+.gtab th,.gtab td{border:1px solid var(--line);padding:6px 8px;text-align:right;line-height:1.5}
+.gtab th{background:var(--paper);font-weight:600;text-align:center;color:var(--ink-soft)}
+.gtab tr>th:first-child{text-align:left;white-space:nowrap}
+.field{display:block}
+.field span{display:block;font-size:13px;color:var(--ink-soft);margin-bottom:6px}
+.field input{
+  width:100%;font-family:inherit;font-size:16px;padding:10px 12px;
+  border:1px solid var(--line);border-radius:7px;background:var(--paper);color:var(--ink);
+  font-variant-numeric:tabular-nums;
+}
+.field input:focus{background:var(--surface);border-color:var(--indigo);outline:none}
+.hist{margin-top:12px;border-top:1px solid var(--line)}
+.hist-row{display:flex;justify-content:space-between;font-size:13.5px;padding:7px 0;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+.hist-row span:last-child{color:var(--ink-soft)}
+.hint{font-size:13px;color:var(--ink-soft);margin:14px 0 0}
+.foot{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft)}
+:focus-visible{outline:2px solid var(--indigo);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:400px){
+  .hero h1{font-size:25px}
+  .wrap{padding:0 13px 56px}
+  .card{padding:16px 14px}
+}
+</style>
+</head>
+<body>
+
+<div class="bar"><div class="bar-in">
+  <button class="back" id="back" hidden>もどる</button>
+  <h2 id="barTitle">マクロ経済学 演習</h2>
+  <span class="spacer"></span>
+  <span class="timer" id="timer" hidden></span>
+</div></div>
+
+<div class="wrap" id="app"></div>
+
+<script>
+"use strict";
+
+/* ============================================================
+   1. ユーティリティ
+   ============================================================ */
+const pick = a => a[Math.floor(Math.random()*a.length)];
+const num = v => {
+  const r = Math.round(v*1000)/1000;
+  return String(r).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+function shuffle(a){
+  const b = a.slice();
+  for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}
+  return b;
+}
+/* 与件を小さな表として示す */
+function kv(rows){
+  return "<table>" + rows.map(r=>`<tr><th>${r[0]}</th><td>${r[1]}</td></tr>`).join("") + "</table>";
+}
+/* 2財モデルの基準年・比較年の価格と数量を生成する */
+function twoGoods(){
+  const p0A=100, p0B=200;
+  const p1A=pick([110,120,125,130]);
+  const p1B=pick([200,220,240,250]);
+  const q0A=pick([40,50,60]), q0B=pick([20,30]);
+  const q1A=pick([50,60,70]), q1B=pick([20,30,40]);
+  const N1=p1A*q1A+p1B*q1B;          // 比較年の名目GDP
+  const R1=p0A*q1A+p0B*q1B;          // 比較年の実質GDP（基準年価格表示）
+  const N0=p0A*q0A+p0B*q0B;          // 基準年の名目GDP
+  const LA=p1A*q0A+p1B*q0B;          // ラスパイレス指数の分子
+  const html = `<table>
+    <tr><th></th><th colspan="2">基準年</th><th colspan="2">比較年</th></tr>
+    <tr><th></th><th>価格</th><th>数量</th><th>価格</th><th>数量</th></tr>
+    <tr><th>財A</th><td>${p0A}</td><td>${q0A}</td><td>${p1A}</td><td>${q1A}</td></tr>
+    <tr><th>財B</th><td>${p0B}</td><td>${q0B}</td><td>${p1B}</td><td>${q1B}</td></tr>
+  </table>`;
+  return {p0A,p0B,p1A,p1B,q0A,q0B,q1A,q1B,N1,R1,N0,LA,html};
+}
+const r1 = v => Math.round(v*10)/10;
+
+/* 数値問題の選択肢を組み立てる。誤答は重複・非有限を除いて先頭3つを採用 */
+function build(correct, wrongs, unit){
+  const f = v => num(v) + (unit||"");
+  const ct = f(correct);
+  const used = new Set([ct]);
+  const ws = [];
+  for(const w of wrongs){
+    if(!isFinite(w.v)) continue;
+    const t = f(w.v);
+    if(used.has(t)) continue;
+    used.add(t); ws.push({t, why:w.why});
+    if(ws.length===3) break;
+  }
+  let k = 2;
+  while(ws.length<3){
+    const t = f(Math.round(correct*k*10)/10);
+    if(!used.has(t)){ used.add(t); ws.push({t, why:"計算の途中で係数を取り違えた場合に出る値です。"}); }
+    k += 0.5;
+  }
+  const arr = shuffle([{t:ct, ok:true, why:""}].concat(ws.map(w=>({t:w.t, ok:false, why:w.why}))));
+  return {
+    choices: arr.map(a=>a.t),
+    answer: arr.findIndex(a=>a.ok),
+    notes: arr.map(a=>a.why)
+  };
+}
+
+/* ============================================================
+   2. 問題バンク
+      type:"static" … 固定問題
+      type:"gen"    … 数値自動生成（解くたびに数字が変わる）
+      why[i]        … 選択肢 i についての一言コメント
+   ============================================================ */
+const TAGS = [
+  {id:"nipa", name:"国民経済計算・経済統計",
+   topics:"GDPの定義と範囲／三面等価／GNI・NDP・NI／名目と実質／GDPデフレーターとCPI／貯蓄投資バランス"},
+  {id:"k45",  name:"45度線分析と乗数",
+   topics:"均衡国民所得／定額税と比例所得税／投資乗数・政府支出乗数・減税乗数／均衡予算乗数／デフレギャップ"},
+  {id:"islm", name:"IS-LM分析",
+   topics:"IS曲線とLM曲線の導出／シフト要因／均衡の決定／財政政策と金融政策の効果／クラウディングアウト／流動性のわな"}
+];
+/* 開放経済の乗数（1/(1−c＋m)）は国際マクロのタグに移動。
+   マンデル＝フレミングなどIS-LMの開放経済版も同様に国際マクロで扱う。 */
+
+const BANK = [
+
+/* ---------- 国民経済計算・経済統計 ---------- */
+{
+  id:"nipa-01", tag:"nipa", level:"A", type:"static",
+  stem:"日本の国内総生産（GDP）に計上されるものとして、最も適切なものはどれか。",
+  choices:[
+    "家庭内で家族が行う無償の家事労働",
+    "持ち家について計算される帰属家賃",
+    "中古住宅が売買されたときの売買代金そのもの",
+    "保有する株式の価格上昇によって生じたキャピタルゲイン"
+  ],
+  answer:1,
+  explain:"帰属家賃は、市場での取引がないにもかかわらず、持ち家の所有者が自分自身に家賃を払って住宅サービスを消費しているとみなして推計され、GDPに計上されます。持ち家か借家かでGDPが変わってしまうことを避けるための例外的な扱いです。",
+  why:[
+    "市場で取引されないため計上されません。同じ作業を家事代行サービスに依頼すれば計上される、というのがGDPの有名な限界です。",
+    "",
+    "中古住宅は過去に生産されたものなので、売買代金は当期の生産ではありません。ただし仲介手数料は当期の仲介サービスの生産なので計上されます。",
+    "資産価格の変動はストックの評価が変わっただけで、財・サービスが新たに生産されたわけではありません。"
+  ]
+},
+{
+  id:"nipa-02", tag:"nipa", level:"A", type:"static",
+  stem:"三面等価の原則に関する記述として、最も適切なものはどれか。",
+  choices:[
+    "生産・分配・支出の三面から測ったGDPは、事後的には必ず一致する",
+    "三面等価が成立するのは、完全雇用が達成されている場合に限られる",
+    "生産面と支出面のGDPは一致するが、分配面のGDPは一般に一致しない",
+    "三面等価が成立するのは、意図した投資と意図した貯蓄が等しいときに限られる"
+  ],
+  answer:0,
+  explain:"三面等価は、同じ付加価値を測る角度を変えているだけなので、事後的には定義上かならず成立する恒等式です。均衡条件ではない、という点が要点です。意図した投資と意図した貯蓄が一致していなくても、意図せざる在庫投資が差を吸収するため等式は必ず成り立ちます。",
+  why:[
+    "",
+    "恒等式なので、雇用量や景気の状態とは無関係に成立します。",
+    "分配面（雇用者報酬＋営業余剰＋固定資本減耗＋間接税−補助金）も同じ額になります。",
+    "事後的な投資には意図せざる在庫投資が含まれます。この調整項があるおかげで、意図した投資と貯蓄が食い違っていても等式は成立します。"
+  ]
+},
+{
+  id:"nipa-03", tag:"nipa", level:"B", type:"static",
+  stem:"国民経済計算上の諸概念に関する記述として、最も適切なものはどれか。",
+  choices:[
+    "国民総所得（GNI）は、GDPに海外からの要素所得の受取りを加え、海外への要素所得の支払いを差し引いたものである",
+    "国内純生産（NDP）は、GDPに固定資本減耗を加えたものである",
+    "要素費用表示の国民所得（NI）は、市場価格表示の国民純生産に間接税を加え、補助金を差し引いたものである",
+    "GDPは国籍に基づく概念であり、GNIは領土に基づく概念である"
+  ],
+  answer:0,
+  explain:"GNI＝GDP＋海外からの純要素所得。GDPは「どこで生産されたか」（国内概念）、GNIは「誰が稼いだか」（国民概念）で線を引きます。",
+  why:[
+    "",
+    "固定資本減耗は差し引きます。NDP＝GDP−固定資本減耗。",
+    "符号が逆です。市場価格には間接税が上乗せされ補助金の分だけ安くなっているので、要素費用に戻すには間接税を差し引き補助金を加えます。",
+    "説明が入れ替わっています。GDPが領土（国内）、GNIが居住者（国民）に基づく概念です。"
+  ]
+},
+{
+  id:"nipa-04", tag:"nipa", level:"A", type:"gen",
+  gen(){
+    const R = pick([400,500,600]);
+    const D = pick([104,105,108,110,112,115,120,125]);
+    const N = R*D/100;
+    const c = build(D, [
+      {v: Math.round(R/N*1000)/10, why:"名目と実質を逆にした値です。デフレーターの分子は名目GDPです。"},
+      {v: 100+(N-R), why:"名目と実質の差額をそのまま100に足した値です。差ではなく比をとります。"},
+      {v: Math.round(N/R*1000)/1000, why:"比は正しいものの、100倍し忘れています。基準年＝100とする指数です。"},
+      {v: Math.round((N-R)/R*1000)/10, why:"物価上昇率にあたる値です。デフレーターの水準そのものではありません。"}
+    ]);
+    return {
+      stem:"ある年の名目GDPと実質GDPが次のとおりであった。この年のGDPデフレーターはいくらか。ただし、基準年のGDPデフレーターを100とする。",
+      give:"名目GDP ＝ "+num(N)+" 兆円　／　実質GDP ＝ "+num(R)+" 兆円",
+      choices:c.choices, answer:c.answer, notes:c.notes,
+      explain:"GDPデフレーター＝名目GDP÷実質GDP×100＝"+num(N)+"÷"+num(R)+"×100＝"+num(D)+"。100を上回っているので、基準年に比べて物価水準は上がっています。GDPデフレーターは当期のバスケットで加重するパーシェ型の指数です。"
+    };
+  }
+},
+{
+  id:"nipa-05", tag:"nipa", level:"B", type:"gen",
+  gen(){
+    const a = pick([2,3,4,5,6]);
+    let b = pick([-2,-1,1,2,3,4]);
+    while(b === a) b = pick([-2,-1,1,2,3,4]);
+    const ans = a-b;
+    const c = build(ans, [
+      {v:a+b, why:"符号を取り違えています。物価が上がった分は実質の伸びから差し引きます。"},
+      {v:b-a, why:"引く向きが逆です。名目の伸びから物価の伸びを引きます。"},
+      {v:a, why:"物価変動を無視した名目成長率そのものです。"},
+      {v:b, why:"デフレーターの上昇率そのものです。"}
+    ], "％");
+    return {
+      stem:"ある年の名目GDP成長率とGDPデフレーターの上昇率が次のとおりであった。この年の実質GDP成長率はおよそ何％か。",
+      give:"名目GDP成長率 ＝ "+a+"％　／　GDPデフレーター上昇率 ＝ "+b+"％",
+      choices:c.choices, answer:c.answer, notes:c.notes,
+      explain:"名目GDP＝実質GDP×GDPデフレーターなので、変化率はおおむね足し算に分解できます。よって実質成長率 ≒ 名目成長率 − デフレーター上昇率 ＝ "+a+" − ("+b+") ＝ "+num(ans)+"％。"+(b<0?"この年は物価が下落しているため、実質の伸びは名目を上回ります。":"物価上昇の分だけ、実質の伸びは名目より小さくなります。")
+    };
+  }
+},
+{
+  id:"nipa-06", tag:"nipa", level:"B", type:"static",
+  stem:"消費者物価指数（CPI）とGDPデフレーターの違いに関する記述として、最も適切なものはどれか。",
+  choices:[
+    "CPIには輸入品の価格が含まれるが、GDPデフレーターには輸入品の価格は直接には反映されない",
+    "CPIはパーシェ型、GDPデフレーターはラスパイレス型の指数である",
+    "CPIは国内で生産されたすべての財・サービスを対象としている",
+    "原油価格が上昇したとき、CPIよりもGDPデフレーターのほうが大きく上昇する"
+  ],
+  answer:0,
+  explain:"GDPデフレーターは国内で生産されたものだけを対象とするため、輸入品の値上がりはそのままでは反映されません。一方CPIは家計が買うバスケットが対象なので、輸入品も含まれます。",
+  why:[
+    "",
+    "逆です。CPIは基準年のバスケットを固定するラスパイレス型、GDPデフレーターは当期のバスケットで加重するパーシェ型です。",
+    "対象は家計が消費する財・サービスのバスケットです。輸入品を含む一方、企業の投資財などは含まれません。",
+    "むしろ逆です。GDP＝C＋I＋G＋X−M で輸入はマイナスの符号で入るため、輸入デフレーターのウェイトは負になります。原油高はCPIを押し上げる一方、GDPデフレーターは押し下げる方向に働きます。ただしこれは、企業が原油コストの上昇を国内向け販売価格へ十分に転嫁していない場合の話です。"
+  ]
+},
+{
+  id:"nipa-07", tag:"nipa", level:"A", type:"static",
+  stem:"開放経済における貯蓄投資バランスの式として、最も適切なものはどれか。ただし S は民間貯蓄、I は民間投資、G は政府支出、T は租税、X は輸出、M は輸入とする。",
+  choices:[
+    "S − I ＝ （G − T） ＋ （X − M）",
+    "S − I ＝ （T − G） ＋ （X − M）",
+    "S ＋ I ＝ （G − T） ＋ （M − X）",
+    "S − I ＝ （G − T） − （X − M）"
+  ],
+  answer:0,
+  explain:"Y ＝ C＋I＋G＋(X−M) と Y ＝ C＋S＋T を等置すると、S＋T ＝ I＋G＋(X−M)、すなわち S−I ＝ (G−T)＋(X−M)。民間部門の貯蓄超過は、財政赤字と経常収支黒字の合計に等しくなります。",
+  why:["","財政赤字の符号が逆です。貯蓄超過の受け皿になるのは、政府の赤字（G−T）です。","支出面と分配面の式の引き算を誤っています。","経常収支の符号が逆です。海外への資金の流出は経常黒字に対応します。"]
+},
+{
+  id:"nipa-08", tag:"nipa", level:"A", type:"gen",
+  gen(){
+    const w = pick([10,15,20,25]);
+    const f = w + pick([15,20,25]);
+    const b = f + pick([20,25,30]);
+    const c = build(b, [
+      {v:w+f+b, why:"三者の売上を単純に合計した値です。これでは小麦と小麦粉の価値を二重・三重に数えてしまいます。"},
+      {v:f+b, why:"製粉業者とパン屋の売上を足した値で、まだ中間投入の二重計算が残っています。"},
+      {v:b-w, why:"最終生産物の価額から農家の売上だけを引いた値です。付加価値の合計とは一致しません。"}
+    ], " 億円");
+    return {
+      stem:"ある経済に、農家・製粉業者・パン屋の三者だけが存在し、次のような取引が行われた。この経済のGDPはいくらか。",
+      give:"農家：小麦を "+w+" 億円分生産し、すべて製粉業者に販売\n製粉業者：小麦粉にして "+f+" 億円でパン屋に販売\nパン屋：パンにして "+b+" 億円で消費者に販売",
+      choices:c.choices, answer:c.answer, notes:c.notes,
+      explain:"各段階の付加価値は、農家 "+w+"、製粉業者 "+(f-w)+"、パン屋 "+(b-f)+"。合計すると "+w+"＋"+(f-w)+"＋"+(b-f)+"＝"+b+" 億円で、最終生産物であるパンの価額と一致します。GDPは売上の合計ではなく付加価値の合計であり、それは最終生産物の価額に等しくなります。"
+    };
+  }
+},
+{
+  id:"nipa-09", tag:"nipa", level:"B", type:"static",
+  stem:"フローとストックの区別に関する記述として、最も適切なものはどれか。",
+  choices:[
+    "GDPはフローであり、国富はストックである",
+    "貯蓄はストックであり、資産はフローである",
+    "投資はストックであり、資本ストックはフローである",
+    "経常収支はストックであり、対外純資産はフローである"
+  ],
+  answer:0,
+  explain:"フローは一定期間に測る量、ストックはある一時点で測る量です。GDPは「1年間に生み出した付加価値」なのでフロー、国富は「ある時点で国全体が保有する正味資産」なのでストックです。",
+  why:["","入れ替わっています。貯蓄は期間中に積み増した額なのでフロー、資産はその蓄積結果なのでストックです。","入れ替わっています。投資がフロー、資本ストックはその蓄積結果です。","入れ替わっています。経常収支は期間中の取引額なのでフロー、対外純資産はその蓄積結果です。"]
+},
+{
+  id:"nipa-10", tag:"nipa", level:"B", type:"static",
+  stem:"GDP統計に関する記述として、最も適切なものはどれか。",
+  choices:[
+    "環境の悪化そのものはGDPから差し引かれない一方で、政府が公害の除去のために支出した費用はGDPを増加させる",
+    "政府が提供する行政サービスは市場で取引されないため、GDPには一切計上されない",
+    "企業が保有する在庫の増加分は、生産されたものの販売されていないため、GDPには計上されない",
+    "失業給付や年金などの移転支出は、家計の所得となるためGDPに計上される"
+  ],
+  answer:0,
+  explain:"GDPは生産された付加価値を測る指標であって、豊かさや厚生を測る指標ではありません。政府サービスは市場価格がないため要した費用で評価して計上されるので、公害除去のための政府支出はそのままGDPを押し上げます。環境が悪化しても差し引かれないのに、後始末をすると加算される。これがGDPの代表的な限界のひとつです。",
+  why:[
+    "",
+    "市場価格がないため、人件費などのコストで評価したうえで計上されています。",
+    "在庫の増加は「在庫投資」として、支出面のGDPに計上されます。売れ残りも当期の生産です。",
+    "移転支出は財・サービスの生産を伴わない所得の移転なので計上されません。二重計算を避けるためです。"
+  ]
+},
+
+{
+  id:"nipa-11", tag:"nipa", level:"A", type:"gen",
+  gen(){
+    const t = twoGoods();
+    const c = build(t.N1, [
+      {v:t.R1, why:"比較年の数量を基準年の価格で評価した値で、これは実質GDPです。名目GDPはその年の価格で評価します。"},
+      {v:t.N0, why:"基準年の名目GDPです。"},
+      {v:t.LA, why:"比較年の価格に基準年の数量を掛けた値で、ラスパイレス型物価指数の分子にあたります。"},
+      {v:t.p1A*t.q1A, why:"財Aだけを計算しています。"}
+    ], " 円");
+    return {
+      stem:"財Aと財Bだけが生産されている経済がある。比較年の名目GDPはいくらか。",
+      giveHtml:t.html,
+      choices:c.choices, answer:c.answer, notes:c.notes,
+      explain:"名目GDPは、その年の価格でその年の数量を評価します。"+t.p1A+"×"+t.q1A+" ＋ "+t.p1B+"×"+t.q1B+" ＝ "+num(t.N1)+" 円。価格も数量も比較年の値を使う、という点が実質GDPとの違いです。"
+    };
+  }
+},
+{
+  id:"nipa-12", tag:"nipa", level:"B", type:"gen",
+  gen(){
+    const t = twoGoods();
+    const c = build(t.R1, [
+      {v:t.N1, why:"比較年の価格で評価した名目GDPです。実質化のためには価格を基準年に固定します。"},
+      {v:t.N0, why:"基準年の名目GDPです。数量も基準年のものになっています。"},
+      {v:t.LA, why:"価格と数量の年次が逆になっています。実質GDPは基準年の価格に比較年の数量を掛けます。"},
+      {v:t.p0A*t.q1A, why:"財Aだけを計算しています。"}
+    ], " 円");
+    return {
+      stem:"財Aと財Bだけが生産されている経済がある。基準年の価格で評価した比較年の実質GDPはいくらか。",
+      giveHtml:t.html,
+      choices:c.choices, answer:c.answer, notes:c.notes,
+      explain:"実質GDPは、価格を基準年に固定したまま比較年の数量を評価します。"+t.p0A+"×"+t.q1A+" ＋ "+t.p0B+"×"+t.q1B+" ＝ "+num(t.R1)+" 円。こうすることで、値上がりによる見かけ上の増加を取り除き、生産量そのものの変化を取り出せます。"
+    };
+  }
+},
+{
+  id:"nipa-13", tag:"nipa", level:"B", type:"gen",
+  gen(){
+    const t = twoGoods();
+    const D = r1(t.N1/t.R1*100);
+    const c = build(D, [
+      {v:r1(t.LA/t.N0*100), why:"基準年の数量を固定して価格だけを比べた値で、ラスパイレス型の物価指数です。GDPデフレーターは比較年の数量で加重します。"},
+      {v:r1(t.N1/t.N0*100), why:"比較年と基準年の名目GDPを比べた値です。ここには数量の変化も混ざっています。"},
+      {v:r1(t.R1/t.N1*100), why:"名目と実質を逆にしています。分子は名目GDPです。"},
+      {v:r1((t.N1-t.R1)/t.R1*100), why:"物価上昇率にあたる値で、指数の水準そのものではありません。"}
+    ]);
+    return {
+      stem:"財Aと財Bだけが生産されている経済がある。比較年のGDPデフレーターはいくらか。ただし、基準年のGDPデフレーターを100とする。",
+      giveHtml:t.html,
+      choices:c.choices, answer:c.answer, notes:c.notes,
+      explain:"GDPデフレーター ＝ 名目GDP ÷ 実質GDP × 100 ＝ "+num(t.N1)+" ÷ "+num(t.R1)+" × 100 ＝ "+num(D)+"。比較年の数量で加重しているので、これはパーシェ型の指数です。基準年の数量で加重するラスパイレス型（CPIの型）とは、一般に一致しません。"
+    };
+  }
+},
+{
+  id:"nipa-14", tag:"nipa", level:"A", type:"gen",
+  gen(){
+    const C=pick([300,320,350]), If=pick([80,100,120]), dS=pick([5,10,-5]),
+          G=pick([60,70,80]), Ig=pick([20,25,30]), X=pick([80,90,100]), M=pick([70,85,95]);
+    const gdp = C+If+dS+G+Ig+X-M;
+    const c = build(gdp, [
+      {v:C+If+dS+G+Ig+X+M, why:"輸入を加えています。輸入は国内で生産されたものではないので差し引きます。"},
+      {v:C+If+G+Ig+X-M, why:"在庫変動を落としています。売れ残りも当期の生産なので、在庫投資として計上します。"},
+      {v:C+If+dS+G+Ig, why:"海外との取引を無視しています。純輸出を加える必要があります。"},
+      {v:C+G, why:"消費だけを合計しています。"}
+    ]);
+    return {
+      stem:"次の支出面の項目から、この国の名目GDPを求めよ。（単位：兆円）",
+      giveHtml:kv([["民間最終消費支出",C],["民間総固定資本形成",If],["在庫変動",dS],
+                   ["政府最終消費支出",G],["公的固定資本形成",Ig],
+                   ["財貨・サービスの輸出",X],["財貨・サービスの輸入",M]]),
+      choices:c.choices, answer:c.answer, notes:c.notes,
+      explain:"GDP ＝ C ＋ I ＋ G ＋ （X − M）。投資は民間総固定資本形成と在庫変動と公的固定資本形成の合計なので、"+C+"＋"+If+"＋("+dS+")＋"+G+"＋"+Ig+"＋"+X+"−"+M+" ＝ "+num(gdp)+" 兆円。輸入を差し引く点と、在庫変動を投資に含める点が落としやすい箇所です。"
+    };
+  }
+},
+{
+  id:"nipa-15", tag:"nipa", level:"A", type:"gen",
+  gen(){
+    const C=pick([300,320,350]), I=pick([100,110,130]), G=pick([80,90,100]),
+          X=pick([90,100]), M=pick([75,85]), D=pick([100,110,120]);
+    const gdp = C+I+G+X-M, ndp = gdp-D;
+    const c = build(ndp, [
+      {v:gdp, why:"固定資本減耗を差し引いていません。これは国内総生産（GDP）です。"},
+      {v:gdp+D, why:"固定資本減耗を加えています。純概念にするには差し引きます。"},
+      {v:C+I+G+X+M-D, why:"輸入を加えてしまっています。"},
+      {v:C+I+G-D, why:"純輸出を落としています。"}
+    ]);
+    return {
+      stem:"次の項目から、この国の名目の国内純生産（NDP）を求めよ。（単位：兆円）",
+      giveHtml:kv([["民間最終消費支出",C],["国内総固定資本形成",I],["政府最終消費支出",G],
+                   ["財貨・サービスの輸出",X],["財貨・サービスの輸入",M],["固定資本減耗",D]]),
+      choices:c.choices, answer:c.answer, notes:c.notes,
+      explain:"まず GDP ＝ "+C+"＋"+I+"＋"+G+"＋"+X+"−"+M+" ＝ "+num(gdp)+"。そこから固定資本減耗を差し引いて NDP ＝ "+num(gdp)+" − "+D+" ＝ "+num(ndp)+" 兆円。総（グロス）と純（ネット）の違いは、設備の摩耗分を引くかどうかです。"
+    };
+  }
+},
+{
+  id:"nipa-16", tag:"nipa", level:"B", type:"gen",
+  gen(){
+    const gdp=pick([540,560,580]), D=pick([110,120,130]),
+          R=pick([35,40,45]), P=pick([10,15,20]);
+    const nni = gdp+R-P-D;
+    const c = build(nni, [
+      {v:gdp+R-P, why:"固定資本減耗を差し引いていません。これは国民総所得（GNI）です。"},
+      {v:gdp-D, why:"海外との所得のやりとりを反映していません。これは国内純生産（NDP）です。"},
+      {v:gdp+R-P+D, why:"固定資本減耗を加えています。純概念にするには差し引きます。"},
+      {v:gdp-R+P-D, why:"海外からの所得の受取と支払が逆になっています。"}
+    ]);
+    return {
+      stem:"次の項目から、市場価格表示の国民純所得（NNI）を求めよ。（単位：兆円）",
+      giveHtml:kv([["国内総生産（GDP）",gdp],["固定資本減耗",D],
+                   ["海外からの所得の受取",R],["海外への所得の支払",P]]),
+      choices:c.choices, answer:c.answer, notes:c.notes,
+      explain:"GNI ＝ GDP ＋ 海外からの所得の純受取 ＝ "+gdp+"＋("+R+"−"+P+") ＝ "+num(gdp+R-P)+"。ここから固定資本減耗を差し引いて NNI ＝ "+num(gdp+R-P)+" − "+D+" ＝ "+num(nni)+" 兆円。「国内か国民か」は海外からの純所得で切り替わり、「総か純か」は固定資本減耗で切り替わります。二つの軸を分けて考えると混乱しません。"
+    };
+  }
+},
+{
+  id:"nipa-17", tag:"nipa", level:"B", type:"gen",
+  gen(){
+    const W=pick([280,300,320]), OS=pick([100,110,130]), D=pick([100,110,120]),
+          T=pick([45,50,55]), S=pick([5,10]);
+    const gdp = W+OS+D+T-S;
+    const c = build(gdp, [
+      {v:W+OS+D+T+S, why:"補助金を加えています。補助金は市場価格を押し下げるので差し引きます。"},
+      {v:W+OS+T-S, why:"固定資本減耗を落としています。分配面のGDPには固定資本減耗が含まれます。"},
+      {v:W+OS+D, why:"生産・輸入品に課される税と補助金を落としています。"},
+      {v:W+OS, why:"雇用者報酬と営業余剰の合計で、要素費用表示の国内所得にあたります。"}
+    ]);
+    return {
+      stem:"次の分配面の項目から、この国の名目GDPを求めよ。（単位：兆円）",
+      giveHtml:kv([["雇用者報酬",W],["営業余剰・混合所得",OS],["固定資本減耗",D],
+                   ["生産・輸入品に課される税",T],["補助金",S]]),
+      choices:c.choices, answer:c.answer, notes:c.notes,
+      explain:"分配面のGDP ＝ 雇用者報酬 ＋ 営業余剰・混合所得 ＋ 固定資本減耗 ＋ （生産・輸入品に課される税 − 補助金） ＝ "+W+"＋"+OS+"＋"+D+"＋("+T+"−"+S+") ＝ "+num(gdp)+" 兆円。固定資本減耗と純間接税を足し忘れないことが要点です。要素費用表示の国民所得を求める場合は、逆にこの二つを差し引きます。"
+    };
+  }
+},
+{
+  id:"nipa-18", tag:"nipa", level:"B", type:"gen",
+  gen(){
+    const t = twoGoods();
+    const L = r1(t.LA/t.N0*100);
+    const c = build(L, [
+      {v:r1(t.N1/t.R1*100), why:"比較年の数量で加重したパーシェ型の指数で、GDPデフレーターにあたります。ラスパイレス型は基準年の数量を固定します。"},
+      {v:r1(t.R1/t.N0*100), why:"価格を基準年に固定して数量の変化を見た値で、これは物価指数ではなく数量指数です。"},
+      {v:r1(t.N1/t.N0*100), why:"比較年と基準年の名目GDPの比です。価格と数量の変化が両方入っています。"},
+      {v:r1(t.N0/t.LA*100), why:"分母と分子が逆になっています。"}
+    ]);
+    return {
+      stem:"財Aと財Bだけが生産されている経済がある。基準年を100とするラスパイレス型物価指数は、比較年においていくらか。",
+      giveHtml:t.html,
+      choices:c.choices, answer:c.answer, notes:c.notes,
+      explain:"ラスパイレス型は、基準年の数量を買い物かごとして固定したまま、価格だけを入れ替えて比べます。\n分子（比較年の価格 × 基準年の数量）＝ "+t.p1A+"×"+t.q0A+" ＋ "+t.p1B+"×"+t.q0B+" ＝ "+num(t.LA)+"\n分母（基準年の価格 × 基準年の数量）＝ "+t.p0A+"×"+t.q0A+" ＋ "+t.p0B+"×"+t.q0B+" ＝ "+num(t.N0)+"\nよって "+num(t.LA)+" ÷ "+num(t.N0)+" × 100 ＝ "+num(L)+"。CPIはこの型です。値上がりした財から安い財へ乗り換える動きを捉えられないため、一般に物価上昇を過大に評価する傾向があります。"
+    };
+  }
+},
+{
+  id:"nipa-19", tag:"nipa", level:"C", type:"gen",
+  gen(){
+    /* 投入係数 A = [[0.2,0.4],[0.3,0.1]]（行が投入元、列が投入先）*/
+    let f1, f2, x1, x2;
+    do{
+      f1 = pick([30,60,90,120]); f2 = pick([30,60,90,120]);
+      x1 = (0.9*f1+0.4*f2)/0.6; x2 = (0.3*f1+0.8*f2)/0.6;
+    }while(Math.abs(x1-Math.round(x1))>1e-9 || Math.abs(x2-Math.round(x2))>1e-9);
+    x1 = Math.round(x1); x2 = Math.round(x2);
+    const fmt = (a,b) => "農業 "+num(a)+"、工業 "+num(b);
+    const cand = [
+      {t:fmt(f1,f2), why:"最終需要そのものです。各部門は中間投入としても需要されるので、生産額は最終需要を上回ります。"},
+      {t:fmt(x2,x1), why:"農業と工業の値が入れ替わっています。"},
+      {t:fmt(r1(f1/0.8), r1(f2/0.9)), why:"自部門への投入だけを考え、部門間の相互依存を無視した値です。"},
+      {t:fmt(r1(f1*1.2), r1(f2*1.1)), why:"投入係数を直接効果として一度だけ掛けた値です。波及は無限に続きます。"}
+    ];
+    const ct = fmt(x1,x2);
+    const used = new Set([ct]); const ws=[];
+    for(const w of cand){ if(used.has(w.t)) continue; used.add(w.t); ws.push(w); if(ws.length===3) break; }
+    const arr = shuffle([{t:ct, ok:true, why:""}].concat(ws.map(w=>({t:w.t, ok:false, why:w.why}))));
+    return {
+      stem:"農業と工業からなる経済の投入係数が次の表のとおりである（列が投入先、行が投入元）。最終需要が農業 "+f1+"、工業 "+f2+" であるとき、各部門の生産額はいくらか。",
+      giveHtml:`<table>
+        <tr><th></th><th>農業</th><th>工業</th></tr>
+        <tr><th>農業</th><td>0.2</td><td>0.4</td></tr>
+        <tr><th>工業</th><td>0.3</td><td>0.1</td></tr>
+      </table>`,
+      choices:arr.map(a=>a.t), answer:arr.findIndex(a=>a.ok), notes:arr.map(a=>a.why),
+      explain:"生産額を x₁、x₂ とすると、各部門の産出は中間需要と最終需要の合計に等しくなります。\nx₁ ＝ 0.2x₁ ＋ 0.4x₂ ＋ "+f1+"\nx₂ ＝ 0.3x₁ ＋ 0.1x₂ ＋ "+f2+"\n整理すると 0.8x₁ − 0.4x₂ ＝ "+f1+"、−0.3x₁ ＋ 0.9x₂ ＝ "+f2+"。これを解いて x₁ ＝ "+num(x1)+"、x₂ ＝ "+num(x2)+"。最終需要より大きくなるのは、中間投入として互いに需要し合う分が上乗せされるためです。"
+    };
+  }
+},
+{
+  id:"nipa-20", tag:"nipa", level:"C", type:"gen",
+  gen(){
+    const sE1 = pick([0.4,0.5]);        // 素材部門の費用に占める輸入原油の割合
+    const s12 = pick([0.4,0.5,0.6]);    // 加工部門の費用に占める素材の割合
+    const sE2 = pick([0.1,0.2]);        // 加工部門が直接使う輸入原油の割合
+    const r  = pick([10,20,30]);        // 原油価格の上昇率（％）
+    const d1 = sE1*r;
+    const d2 = s12*d1 + sE2*r;
+    const c = build(r1(d2), [
+      {v:r1(sE2*r), why:"加工部門が直接使う原油の分しか見ていません。素材の値上がりを通じた間接的な影響が抜けています。"},
+      {v:r1(d1), why:"素材部門の価格上昇率です。問われているのは加工部門です。"},
+      {v:r1((s12+sE2)*r), why:"素材の投入割合に原油価格の上昇率をそのまま掛けています。素材の価格は r％ ではなく "+num(r1(d1))+"％ しか上がりません。"},
+      {v:r, why:"原油価格の上昇率そのものです。"}
+    ], "％");
+    return {
+      stem:"素材部門と加工部門からなる経済を考える。各部門の生産費用の構成は次のとおりで、投入係数は一定である。輸入原油の価格が "+r+"％ 上昇したとき、加工部門の産出価格は何％上昇するか。ただし賃金など国内の付加価値部分の単価は変化せず、費用の上昇はすべて価格に転嫁されるものとする。",
+      giveHtml:`<table>
+        <tr><th></th><th>素材部門</th><th>加工部門</th></tr>
+        <tr><th>輸入原油</th><td>${sE1}</td><td>${sE2}</td></tr>
+        <tr><th>素材</th><td>—</td><td>${s12}</td></tr>
+        <tr><th>付加価値</th><td>${r1(1-sE1)}</td><td>${r1(1-sE2-s12)}</td></tr>
+      </table>`,
+      choices:c.choices, answer:c.answer, notes:c.notes,
+      explain:"価格の上昇率は、投入物の価格上昇率をそれぞれの費用シェアで加重した和になります。\n素材部門：" +sE1+" × "+r+"％ ＝ "+num(r1(d1))+"％\n加工部門："+s12+" × "+num(r1(d1))+"％ ＋ "+sE2+" × "+r+"％ ＝ "+num(r1(s12*d1))+"％ ＋ "+num(r1(sE2*r))+"％ ＝ "+num(r1(d2))+"％\n原油を直接使う分（直接効果）だけでなく、素材の値上がりを経由した分（間接効果）まで足すのがこの形式の要点です。付加価値部分の単価は動かないので、その分だけ上昇率は薄まります。"
+    };
+  }
+},
+{
+  id:"nipa-21", tag:"nipa", level:"C", type:"gen",
+  gen(){
+    const which = pick(["a","b"]);
+    const df = pick([60,120]);
+    const d1 = which==="a" ? 0.9*df/0.6 : 0.4*df/0.6;
+    const d2 = which==="a" ? 0.3*df/0.6 : 0.8*df/0.6;
+    const tot = d1+d2;
+    const name = which==="a" ? "農業" : "工業";
+    const c = build(tot, [
+      {v:df, why:"最終需要の増加額そのもので、波及分が入っていません。"},
+      {v:d1, why:"農業部門に生じる生産誘発額だけです。両部門の合計が問われています。"},
+      {v:d2, why:"工業部門に生じる生産誘発額だけです。両部門の合計が問われています。"},
+      {v:r1(df*1.5), why:"一次波及までで打ち切った値です。"}
+    ]);
+    return {
+      stem:name+"に対する最終需要が "+df+" 増加したとき、経済全体で誘発される生産額の合計はいくらか。投入係数は次の表のとおりで一定とする（列が投入先、行が投入元）。",
+      giveHtml:`<table>
+        <tr><th></th><th>農業</th><th>工業</th></tr>
+        <tr><th>農業</th><td>0.2</td><td>0.4</td></tr>
+        <tr><th>工業</th><td>0.3</td><td>0.1</td></tr>
+      </table>`,
+      choices:c.choices, answer:c.answer, notes:c.notes,
+      explain:"生産額の変化は Δx ＝ (I − A)⁻¹ Δf で求まります。この表では (I − A)⁻¹ ＝ (1/0.6)×[[0.9, 0.4],[0.3, 0.8]] です。"+name+"への最終需要が "+df+" 増えると、農業に "+num(r1(d1))+"、工業に "+num(r1(d2))+" の生産が誘発され、合計は "+num(r1(tot))+"。最終需要の増加額 "+df+" を上回るのは、中間投入を通じた波及が積み重なるためです。"
+    };
+  }
+},
+/* ---------- 45度線分析と乗数 ---------- */
+{
+  id:"k45-01", tag:"k45", level:"A", type:"gen",
+  gen(){
+    const c = pick([0.6,0.75,0.8]);
+    const a = pick([20,30,40,50]);
+    const I = pick([20,30,40]);
+    let G = pick([10,20,30,40]);
+    if(c===0.6 && (a+I+G)%2!==0) G += 10;
+    const A = a+I+G, m = 1/(1-c), Y = A*m;
+    const ch = build(Y, [
+      {v:(a+I)*m, why:"政府支出Gを独立支出に含め忘れています。"},
+      {v:A/c, why:"分母を 1−c ではなく c にしています。乗数は 1/(1−c) です。"},
+      {v:A, why:"独立支出の合計そのもので、乗数を掛けていません。"},
+      {v:A*(1-c), why:"乗数の逆数を掛けています。1−c＜1 なので所得はむしろ小さくなってしまいます。"}
+    ]);
+    return {
+      stem:"次のようなマクロモデルを考える。均衡国民所得 Y はいくらか。ただし物価は一定とする。",
+      give:"Y ＝ C ＋ I ＋ G\nC ＝ "+a+" ＋ "+c+"Y\nI ＝ "+I+"　（独立投資）\nG ＝ "+G,
+      choices:ch.choices, answer:ch.answer, notes:ch.notes,
+      explain:"Y ＝ "+a+" ＋ "+c+"Y ＋ "+I+" ＋ "+G+" を Y について解きます。(1−"+c+")Y ＝ "+A+" より、Y ＝ "+A+" ÷ "+num(1-c)+" ＝ "+num(Y)+"。独立支出の合計 "+A+" に乗数 1/(1−"+c+") ＝ "+num(m)+" を掛けた形です。"
+    };
+  }
+},
+{
+  id:"k45-02", tag:"k45", level:"A", type:"gen",
+  gen(){
+    const c = pick([0.6,0.75,0.8]);
+    const dI = pick([10,20,30]);
+    const ans = dI/(1-c);
+    const ch = build(ans, [
+      {v:dI/c, why:"分母を 1−c ではなく c にしています。"},
+      {v:dI*c/(1-c), why:"減税乗数の形です。政府支出や投資の増加は、初回から全額が需要になります。"},
+      {v:dI*(1-c), why:"乗数の逆数を掛けています。"},
+      {v:dI, why:"波及効果を無視し、最初の投資増加分だけを答えています。"}
+    ]);
+    return {
+      stem:"限界消費性向が次の値であるマクロモデルにおいて、独立投資が増加したとき、均衡国民所得はいくら増加するか。",
+      give:"限界消費性向 c ＝ "+c+"　／　投資の増加 ΔI ＝ "+dI,
+      choices:ch.choices, answer:ch.answer, notes:ch.notes,
+      explain:"投資乗数は 1/(1−c) ＝ 1/"+num(1-c)+" ＝ "+num(1/(1-c))+"。したがって ΔY ＝ "+num(1/(1-c))+" × "+dI+" ＝ "+num(ans)+"。最初の "+dI+" が誰かの所得になり、そのうち "+c+" の割合が再び支出される、という波及が無限に続いた合計です。"
+    };
+  }
+},
+{
+  id:"k45-03", tag:"k45", level:"B", type:"static",
+  stem:"単純なケインズ型モデル（限界消費性向を c、0＜c＜1 とする）における乗数に関する記述として、最も適切なものはどれか。",
+  choices:[
+    "減税乗数の絶対値は、政府支出乗数より小さい",
+    "減税乗数の絶対値は、政府支出乗数より大きい",
+    "減税乗数の絶対値と政府支出乗数は、つねに一致する",
+    "限界消費性向が大きいほど、減税乗数の絶対値は小さくなる"
+  ],
+  answer:0,
+  explain:"政府支出乗数は 1/(1−c)、減税乗数は −c/(1−c)。0＜c＜1 なので c/(1−c) ＜ 1/(1−c) です。政府支出は全額がそのまま需要になりますが、減税で家計に渡った所得は (1−c) の分だけ貯蓄に回り、需要になるのは c 倍にとどまります。この違いが乗数の差になります。",
+  why:[
+    "",
+    "大小が逆です。減税の方が、最初の一巡で需要に回る割合が小さくなります。",
+    "一致するのは c ＝ 1 という極端な場合だけです。",
+    "c が大きくなると c/(1−c) は大きくなります。分子が増え分母が減るためです。"
+  ]
+},
+{
+  id:"k45-04", tag:"k45", level:"B", type:"static",
+  stem:"限界消費性向が 0.8 のマクロモデルにおいて、政府支出を 100 増加させると同時に、租税も 100 増加させて均衡予算を維持した。均衡国民所得はいくら変化するか。",
+  choices:["100 増加する","変化しない","400 増加する","500 増加する"],
+  answer:0,
+  explain:"政府支出乗数は 1/(1−0.8) ＝ 5、減税乗数は −0.8/(1−0.8) ＝ −4。したがって 5×100 ＋ (−4)×100 ＝ 100。均衡予算乗数は 5−4＝1 で、限界消費性向の値によらずつねに 1 になります。財源を増税でまかなっても、財政支出には拡張効果が残るという結論です。",
+  why:[
+    "",
+    "支出と課税が完全に打ち消し合うわけではありません。増税で減る需要は c 倍にとどまるためです。",
+    "減税（増税）乗数だけを使った値です。政府支出の増加を見落としています。",
+    "政府支出乗数だけを使った値で、増税の効果を差し引いていません。"
+  ]
+},
+{
+  id:"k45-05", tag:"k45", level:"B", type:"gen",
+  gen(){
+    const p = pick([{c:0.8,t:0.25},{c:0.75,t:0.2}]);
+    const c = p.c, t = p.t;
+    const m = 1/(1-c*(1-t));
+    const dG = pick([20,40,60]);
+    const ans = m*dG;
+    const ch = build(ans, [
+      {v:dG/(1-c), why:"所得税を考えずに 1/(1−c) を使った値です。税があると乗数は小さくなります。"},
+      {v:dG/(1-c+t), why:"分母の形が違います。1−c(1−t) であって 1−c＋t ではありません。"},
+      {v:dG*(1-t)/(1-c), why:"税率の掛け方が違います。tは可処分所得を通じて分母に入ります。"},
+      {v:dG, why:"波及効果を無視した値です。"}
+    ]);
+    return {
+      stem:"比例所得税を含む次のマクロモデルにおいて、政府支出を増加させたとき、均衡国民所得はいくら増加するか。",
+      give:"Y ＝ C ＋ I ＋ G\nC ＝ C₀ ＋ "+c+"（Y − T）\nT ＝ "+t+"Y\n政府支出の増加 ΔG ＝ "+dG,
+      choices:ch.choices, answer:ch.answer, notes:ch.notes,
+      explain:"可処分所得は (1−"+t+")Y なので、所得が1増えたときの消費の増加は "+c+"×(1−"+t+") ＝ "+num(c*(1-t))+"。乗数は 1/(1−"+num(c*(1-t))+") ＝ "+num(m)+" となり、ΔY ＝ "+num(m)+" × "+dG+" ＝ "+num(ans)+"。所得税がない場合の乗数 "+num(1/(1-c))+" より小さくなっています。所得が増えるたびに一部が税として抜けていくため、波及が弱まる（ビルトイン・スタビライザー）からです。"
+    };
+  }
+},
+{
+  id:"k45-06", tag:"k45", level:"B", type:"gen",
+  gen(){
+    const c = pick([0.6,0.75,0.8]);
+    const C0 = pick([40,60,80]);
+    const T = pick([20,40,60]);
+    const I = pick([20,30,40]);
+    const G = pick([20,30,40]);
+    const A = C0 - c*T + I + G;
+    const Y = A/(1-c);
+    const ch = build(Y, [
+      {v:(C0+I+G)/(1-c), why:"租税の存在を無視しています。定額税は独立支出を cT だけ引き下げます。"},
+      {v:(C0-T+I+G)/(1-c), why:"租税に限界消費性向を掛け忘れています。増税で減る消費は T ではなく cT です。"},
+      {v:A/c, why:"分母を 1−c ではなく c にしています。"},
+      {v:A, why:"独立支出の合計そのもので、乗数を掛けていません。"}
+    ]);
+    return {
+      stem:"定額税を含む次のマクロモデルにおいて、均衡国民所得 Y はいくらか。",
+      give:"Y ＝ C ＋ I ＋ G\nC ＝ "+C0+" ＋ "+c+"（Y − T）\nT ＝ "+T+"　（定額税）\nI ＝ "+I+"　／　G ＝ "+G,
+      choices:ch.choices, answer:ch.answer, notes:ch.notes,
+      explain:"消費関数を展開すると C ＝ "+C0+" − "+c+"×"+T+" ＋ "+c+"Y ＝ "+num(C0-c*T)+" ＋ "+c+"Y。独立支出の合計は "+num(C0-c*T)+" ＋ "+I+" ＋ "+G+" ＝ "+num(A)+" となり、乗数 1/(1−"+c+") ＝ "+num(1/(1-c))+" を掛けて Y ＝ "+num(Y)+"。定額税は独立支出を T ではなく cT ＝ "+num(c*T)+" だけ押し下げる点が要点です。残りの "+num((1-c)*T)+" は、もともと貯蓄に回るはずだった分なので需要を減らしません。"
+    };
+  }
+},
+{
+  id:"k45-07", tag:"k45", level:"A", type:"gen",
+  gen(){
+    const c = pick([0.75,0.8]);
+    const Y = pick([400,500,600]);
+    const gap = pick([40,80,100]);
+    const Yf = Y+gap;
+    const ans = gap*(1-c);
+    const ch = build(ans, [
+      {v:gap, why:"所得の不足額そのものです。乗数が働くので、必要な需要の追加はこれより小さくて済みます。"},
+      {v:gap/(1-c), why:"乗数を掛けています。ここでは逆に、乗数で割る（1−cを掛ける）必要があります。"},
+      {v:gap*c, why:"1−c ではなく c を掛けています。"}
+    ]);
+    return {
+      stem:"次のマクロモデルにおいて、完全雇用を達成するために必要な政府支出の増加額（デフレギャップ）はいくらか。",
+      give:"完全雇用国民所得 Yf ＝ "+Yf+"\n現在の均衡国民所得 Y ＝ "+Y+"\n限界消費性向 c ＝ "+c,
+      choices:ch.choices, answer:ch.answer, notes:ch.notes,
+      explain:"所得の不足は "+Yf+" − "+Y+" ＝ "+gap+"。政府支出乗数は 1/(1−"+c+") ＝ "+num(1/(1-c))+" なので、必要な政府支出の増加を ΔG とすると "+num(1/(1-c))+"ΔG ＝ "+gap+"、よって ΔG ＝ "+gap+"×(1−"+c+") ＝ "+num(ans)+"。この "+num(ans)+" が、完全雇用水準における総需要の不足額＝デフレギャップです。所得の不足額そのものではない点に注意してください。"
+    };
+  }
+},
+{
+  id:"k45-08", tag:"k45", level:"B", type:"static",
+  stem:"「節約のパラドックス（合成の誤謬）」に関する記述として、最も適切なものはどれか。",
+  choices:[
+    "人々がこぞって貯蓄を増やそうとすると国民所得が減少し、結果として貯蓄額が増えない、あるいはかえって減ることがある",
+    "人々が貯蓄を増やすと利子率が低下し、投資が増加して国民所得が拡大する",
+    "この現象は、完全雇用が達成されている経済でのみ観察される",
+    "貯蓄性向が上昇しても、45度線分析では均衡国民所得は変化しない"
+  ],
+  answer:0,
+  explain:"個々の家計にとって合理的な節約が、全体では所得の減少を招く、という有効需要の側面から見た逆説です。貯蓄性向の上昇は限界消費性向の低下を意味し、乗数 1/(1−c) が小さくなって均衡国民所得が下がります。",
+  why:[
+    "",
+    "これは利子率を通じた古典派的な調整の説明であって、パラドックスの内容ではありません。45度線分析では利子率は一定と置かれます。",
+    "むしろ有効需要が不足している状況でこそ問題になります。完全雇用下では供給側が制約になります。",
+    "限界消費性向が下がるので乗数は小さくなり、均衡国民所得は減少します。"
+  ]
+},
+{
+  id:"k45-09", tag:"k45", level:"A", type:"static",
+  stem:"45度線分析において、国民所得が均衡水準を上回っているとき生じることとして、最も適切なものはどれか。",
+  choices:[
+    "総供給が総需要を上回り、意図せざる在庫の増加が生じて、企業は生産を減少させる",
+    "総需要が総供給を上回り、意図せざる在庫の減少が生じて、企業は生産を増加させる",
+    "物価が上昇して実質貨幣残高が減少し、総需要が減少する",
+    "利子率が上昇して投資が減少し、総需要が減少する"
+  ],
+  answer:0,
+  explain:"45度線分析では物価も利子率も一定と仮定されており、均衡への復帰は数量（生産量）の調整によって起こります。売れ残りが在庫として積み上がることが、企業に減産を促すシグナルになります。",
+  why:[
+    "",
+    "均衡水準を下回っている場合の説明です。",
+    "物価を通じた調整はAD-AS分析の話で、45度線分析では物価は一定と置かれています。",
+    "利子率を通じた調整はIS-LM分析の話です。45度線分析では投資は独立投資として外生的に与えられます。"
+  ]
+},
+{
+  id:"k45-10", tag:"k45", level:"B", type:"static",
+  stem:"45度線分析の前提に関する記述として、最も適切なものはどれか。",
+  choices:[
+    "物価水準は一定であり、需要があればそれに応じて供給が実現する",
+    "生産要素は完全雇用されており、供給側の条件が国民所得の水準を決める",
+    "利子率の変動を通じて、投資が内生的に決定される",
+    "労働市場では実質賃金が伸縮的に調整され、非自発的失業は生じない"
+  ],
+  answer:0,
+  explain:"45度線分析は、遊休設備と失業が存在する不況期を念頭に置いたモデルです。供給には余裕があるので、需要の大きさが生産量＝国民所得を決める（有効需要の原理）という発想に立っています。",
+  why:[
+    "",
+    "これは古典派・新古典派の想定です。45度線分析では、需要が所得を決めます。",
+    "単純な45度線モデルでは投資は独立投資（外生）です。利子率を通じた投資の決定はIS-LM分析で導入されます。",
+    "賃金の下方硬直性を前提としており、非自発的失業が存在しうる状況を扱います。"
+  ]
+},
+
+/* ---------- IS-LM分析（閉鎖経済） ---------- */
+{
+  id:"islm-01", tag:"islm", level:"A", type:"static",
+  stem:"IS曲線に関する記述として、最も適切なものはどれか。",
+  choices:[
+    "財市場を均衡させる利子率と国民所得の組合せを表し、右下がりになる",
+    "貨幣市場を均衡させる利子率と国民所得の組合せを表し、右下がりになる",
+    "投資の利子弾力性が大きいほど、IS曲線は急な傾きになる",
+    "IS曲線より右側の領域では、財市場は超過需要の状態にある"
+  ],
+  answer:0,
+  explain:"利子率が下がると投資が増え、乗数を通じて均衡国民所得が増えます。したがって財市場を均衡させる（r, Y）の組合せは右下がりになります。",
+  why:[
+    "",
+    "貨幣市場を均衡させるのはLM曲線で、こちらは右上がりです。",
+    "逆です。投資が利子率に敏感なほど、わずかな利子率の低下で所得が大きく増えるため、IS曲線は緩やかな（水平に近い）傾きになります。",
+    "IS曲線の右側は所得が均衡水準を上回っている領域なので、財市場は超過供給の状態です。"
+  ]
+},
+{
+  id:"islm-02", tag:"islm", level:"A", type:"static",
+  stem:"LM曲線に関する記述として、最も適切なものはどれか。",
+  choices:[
+    "貨幣市場を均衡させる利子率と国民所得の組合せを表し、右上がりになる",
+    "貨幣需要の利子弾力性が大きいほど、LM曲線は急な傾きになる",
+    "マネーサプライが増加すると、LM曲線は左方にシフトする",
+    "物価水準が上昇すると、LM曲線は右方にシフトする"
+  ],
+  answer:0,
+  explain:"所得が増えると取引動機にもとづく貨幣需要が増えます。マネーサプライが一定のもとで貨幣市場が均衡するには、投機的動機の貨幣需要が減らねばならず、そのためには利子率が上がる必要があります。よってLM曲線は右上がりです。",
+  why:[
+    "",
+    "逆です。貨幣需要が利子率に敏感なほど、わずかな利子率の変化で貨幣市場の調整が済むため、LM曲線は緩やかな（水平に近い）傾きになります。",
+    "実質貨幣供給が増えるので、LM曲線は右方（下方）にシフトします。",
+    "実質貨幣供給 M/P が減るため、LM曲線は左方（上方）にシフトします。"
+  ]
+},
+{
+  id:"islm-03", tag:"islm", level:"A", type:"gen",
+  gen(){
+    let C0,I0,G,M,A,r,Y;
+    do{
+      C0=pick([20,40]); I0=pick([80,100,120]); G=pick([40,60,80]); M=pick([80,100,120]);
+      A=C0+I0+G; r=(A-M)/20; Y=5*M+50*r;
+    }while(!(Number.isInteger(r) && r>=1 && r<=5));
+    const c = build(Y, [
+      {v:5*A, why:"利子率が変化しないと仮定した場合の値です。45度線分析の解であり、クラウディングアウトを見落としています。"},
+      {v:5*M, why:"LM曲線で利子率をゼロとした値です。財市場の条件が反映されていません。"},
+      {v:5*M-50*r, why:"LM曲線で利子率の符号を取り違えています。所得が増えるとき、貨幣市場の均衡には利子率の上昇が必要です。"}
+    ]);
+    return {
+      stem:"次のIS-LMモデルにおいて、均衡国民所得はいくらか。ただし r は利子率（％表示）、物価水準は1に固定されているものとする。",
+      giveHtml:kv([["財市場","Y ＝ C ＋ I ＋ G"],["消費関数","C ＝ "+C0+" ＋ 0.8Y"],
+                   ["投資関数","I ＝ "+I0+" − 10r"],["政府支出","G ＝ "+G],
+                   ["貨幣需要","L ＝ 0.2Y − 10r"],["貨幣供給","M ＝ "+M]]),
+      choices:c.choices, answer:c.answer, notes:c.notes,
+      explain:"IS曲線：0.2Y ＝ "+A+" − 10r より Y ＝ "+num(5*A)+" − 50r\nLM曲線：0.2Y − 10r ＝ "+M+" より Y ＝ "+num(5*M)+" ＋ 50r\n両者を連立させると r ＝ "+num(r)+"、Y ＝ "+num(Y)+"。利子率を一定とした45度線分析なら "+num(5*A)+" になるところが、利子率の上昇によって "+num(Y)+" にとどまっています。この差 "+num(5*A-Y)+" がクラウディングアウトの大きさです。"
+    };
+  }
+},
+{
+  id:"islm-04", tag:"islm", level:"B", type:"static",
+  stem:"クラウディングアウトに関する記述として、最も適切なものはどれか。",
+  choices:[
+    "政府支出の増加が利子率を押し上げ、民間投資を減少させるため、国民所得の増加が45度線分析の場合より小さくなる現象である",
+    "LM曲線が水平であるとき、クラウディングアウトは完全に生じる",
+    "投資が利子率にまったく反応しない場合、クラウディングアウトはより大きくなる",
+    "金融緩和政策を行ったときに、民間消費が押し出される現象である"
+  ],
+  answer:0,
+  explain:"財政拡張は所得を増やし、取引動機の貨幣需要を高めます。マネーサプライが一定なら利子率が上昇し、その分だけ民間投資が押し出されます。IS-LMの乗数が45度線分析の乗数より小さくなるのは、この効果があるためです。",
+  why:[
+    "",
+    "LM曲線が水平なのは流動性のわなの場合で、利子率が上がらないためクラウディングアウトはまったく生じません。完全に生じるのはLM曲線が垂直のときです。",
+    "投資が利子率に反応しないなら、利子率が上がっても投資は減りません。つまりクラウディングアウトは生じません。",
+    "財政政策に伴って民間投資が押し出される現象を指します。"
+  ]
+},
+{
+  id:"islm-05", tag:"islm", level:"B", type:"gen",
+  gen(){
+    const st = pick([
+      {c:0.8,b:10,k:0.2,h:10},
+      {c:0.8,b:15,k:0.2,h:10},
+      {c:0.8,b:5, k:0.1,h:10}
+    ]);
+    const den = (1-st.c) + st.b*st.k/st.h;
+    const mul = 1/den, naive = 1/(1-st.c);
+    const dG = pick([20,40,60]);
+    const ans = mul*dG;
+    const c = build(r1(ans), [
+      {v:r1(naive*dG), why:"利子率が変化しないと仮定した45度線分析の値です。クラウディングアウトの分だけ過大になります。"},
+      {v:dG, why:"乗数効果をまったく考えていません。"},
+      {v:0, why:"クラウディングアウトが完全に生じる場合、つまりLM曲線が垂直のときの値です。"}
+    ]);
+    return {
+      stem:"次のIS-LMモデルにおいて、政府支出を "+dG+" 増加させたとき、均衡国民所得はいくら増加するか。",
+      giveHtml:kv([["消費関数","C ＝ C₀ ＋ "+st.c+"Y"],["投資関数","I ＝ I₀ − "+st.b+"r"],
+                   ["貨幣需要","L ＝ "+st.k+"Y − "+st.h+"r"],["貨幣供給","M は一定"]]),
+      choices:c.choices, answer:c.answer, notes:c.notes,
+      explain:"IS-LMモデルの政府支出乗数は 1 ÷ ｛(1−c) ＋ bk/h｝ です。\n分母 ＝ (1−"+st.c+") ＋ "+st.b+"×"+st.k+"÷"+st.h+" ＝ "+num(r1(1-st.c))+" ＋ "+num(r1(st.b*st.k/st.h))+" ＝ "+num(r1(den))+"\n乗数 ＝ "+num(r1(mul))+" なので ΔY ＝ "+num(r1(mul))+" × "+dG+" ＝ "+num(r1(ans))+"。\n利子率を一定とした45度線分析の乗数は 1/(1−"+st.c+") ＝ "+num(r1(naive))+" で、ΔY は "+num(r1(naive*dG))+" になるはずでした。差の "+num(r1(naive*dG-ans))+" がクラウディングアウトによって失われた分です。分母の第2項 bk/h が大きいほど、つまり投資が利子率に敏感（bが大）で貨幣需要が利子率に鈍感（hが小）なほど、この目減りは大きくなります。"
+    };
+  }
+},
+{
+  id:"islm-06", tag:"islm", level:"B", type:"static",
+  stem:"流動性のわなに陥っている経済に関する記述として、最も適切なものはどれか。",
+  choices:[
+    "LM曲線が水平になり、金融緩和は国民所得を増加させないが、財政政策は45度線分析と同じ大きさの効果をもつ",
+    "LM曲線が垂直になり、財政政策は国民所得を増加させない",
+    "貨幣需要の利子弾力性がゼロになっている状態である",
+    "クラウディングアウトが完全に生じるため、財政政策は無効になる"
+  ],
+  answer:0,
+  explain:"利子率が十分に低く、人々が債券より貨幣を無限に保有しようとする状態です。貨幣需要の利子弾力性が無限大になるためLM曲線は水平になり、マネーサプライを増やしても利子率は下がらず、金融政策は効きません。逆に財政拡張をしても利子率が上がらないのでクラウディングアウトが生じず、財政政策は最大の効果を発揮します。",
+  why:[
+    "",
+    "LM曲線が垂直になるのは貨幣需要の利子弾力性がゼロの場合で、流動性のわなとは正反対の状況です。",
+    "弾力性は無限大になります。ゼロになるのはLM曲線が垂直の場合です。",
+    "利子率が上がらないため、クラウディングアウトはまったく生じません。財政政策はむしろ最も効きます。"
+  ]
+},
+{
+  id:"islm-07", tag:"islm", level:"B", type:"static",
+  stem:"金融緩和政策（マネーサプライの増加）が国民所得に与える効果が最も大きくなるのは、次のうちどの場合か。",
+  choices:[
+    "投資の利子弾力性が大きく、貨幣需要の利子弾力性が小さい",
+    "投資の利子弾力性が小さく、貨幣需要の利子弾力性が大きい",
+    "投資の利子弾力性が小さく、貨幣需要の利子弾力性も小さい",
+    "投資の利子弾力性が大きく、貨幣需要の利子弾力性も大きい"
+  ],
+  answer:0,
+  explain:"金融緩和はLM曲線を右にシフトさせ、利子率を下げて投資を増やすという経路で効きます。貨幣需要が利子率に鈍感（LM曲線が急）なら、同じマネーサプライの増加で利子率が大きく下がります。さらに投資が利子率に敏感（IS曲線が緩やか）なら、その利子率低下が大きな投資増につながります。この二つが揃ったときに効果は最大になります。",
+  why:[
+    "",
+    "金融政策が最も効きにくい組合せです。極端な場合が流動性のわなで、LM曲線が水平になり効果はゼロになります。",
+    "利子率は大きく下がりますが、投資が反応しないため所得はあまり増えません。",
+    "利子率がほとんど下がらないため、投資が敏感でも所得はあまり増えません。"
+  ]
+},
+{
+  id:"islm-08", tag:"islm", level:"A", type:"static",
+  stem:"IS曲線を右方（上方）にシフトさせる要因として、最も適切なものはどれか。",
+  choices:[
+    "政府支出の増加",
+    "マネーサプライの増加",
+    "定額税の増税",
+    "物価水準の上昇"
+  ],
+  answer:0,
+  explain:"IS曲線をシフトさせるのは、利子率以外の要因による財市場の需要の変化です。政府支出の増加は各利子率のもとでの均衡国民所得を高めるので、IS曲線は右方にシフトします。",
+  why:[
+    "",
+    "貨幣市場の変化なので、動くのはLM曲線です。右方（下方）にシフトします。",
+    "可処分所得が減って消費が落ちるため、IS曲線は左方にシフトします。",
+    "実質貨幣供給 M/P が減るため、LM曲線が左方にシフトします。IS曲線は動きません。"
+  ]
+},
+{
+  id:"islm-09", tag:"islm", level:"B", type:"gen",
+  gen(){
+    const C0=pick([20,40]), I0=pick([80,100,120]), G=pick([40,60,80]);
+    const A=C0+I0+G;
+    const ct = "Y ＝ "+num(5*A)+" − 50r";
+    const cand = [
+      {t:"Y ＝ "+num(5*A)+" ＋ 50r", why:"符号が逆です。利子率が上がると投資が減り、均衡国民所得は小さくなります。"},
+      {t:"Y ＝ "+num(A)+" − 50r", why:"独立支出に乗数を掛けていません。"},
+      {t:"Y ＝ "+num(5*A)+" − 10r", why:"利子率の項にも乗数を掛ける必要があります。投資の減少分もまた乗数倍されて所得を減らします。"},
+      {t:"Y ＝ "+num(A)+" − 10r", why:"両方の項に乗数を掛け忘れています。"}
+    ];
+    const used=new Set([ct]); const ws=[];
+    for(const w of cand){ if(used.has(w.t)) continue; used.add(w.t); ws.push(w); if(ws.length===3) break; }
+    const arr = shuffle([{t:ct, ok:true, why:""}].concat(ws.map(w=>({t:w.t, ok:false, why:w.why}))));
+    return {
+      stem:"次の財市場のモデルから導かれるIS曲線の式として、正しいものはどれか。",
+      giveHtml:kv([["財市場","Y ＝ C ＋ I ＋ G"],["消費関数","C ＝ "+C0+" ＋ 0.8Y"],
+                   ["投資関数","I ＝ "+I0+" − 10r"],["政府支出","G ＝ "+G]]),
+      choices:arr.map(a=>a.t), answer:arr.findIndex(a=>a.ok), notes:arr.map(a=>a.why),
+      explain:"Y ＝ "+C0+" ＋ 0.8Y ＋ "+I0+" − 10r ＋ "+G+" を Y について解きます。\n(1 − 0.8)Y ＝ "+A+" − 10r\n0.2Y ＝ "+A+" − 10r\nY ＝ "+num(5*A)+" − 50r\n両辺を 0.2 で割るので、定数項だけでなく利子率の項も5倍になります。ここを落とすと傾きを誤ります。"
+    };
+  }
+},
+{
+  id:"islm-10", tag:"islm", level:"B", type:"static",
+  stem:"IS-LMモデルにおける政策の有効性に関する記述として、最も適切なものはどれか。",
+  choices:[
+    "LM曲線が垂直のとき、財政政策は国民所得を増加させない",
+    "IS曲線が垂直のとき、金融政策は国民所得を大きく増加させる",
+    "LM曲線が水平のとき、金融政策は国民所得を大きく増加させる",
+    "IS曲線が水平のとき、財政政策の効果は最大になる"
+  ],
+  answer:0,
+  explain:"LM曲線が垂直なのは貨幣需要が利子率にまったく反応しない場合です。このとき財政拡張は利子率を押し上げるだけで、増えた需要はすべて民間投資の減少で相殺されます。完全なクラウディングアウトが生じ、国民所得は変わりません。",
+  why:[
+    "",
+    "IS曲線が垂直なのは投資が利子率に反応しない場合です。利子率が下がっても投資が増えないので、金融政策は無効になります。",
+    "LM曲線が水平なのは流動性のわなの場合で、金融政策は無効になります。逆に財政政策が最大の効果をもちます。",
+    "IS曲線が水平なのは投資の利子弾力性が無限大の場合で、財政拡張は完全にクラウドアウトされます。財政政策が最大の効果をもつのは、LM曲線が水平のときです。"
+  ]
+},
+];
+
+/* ============================================================
+   3. 状態
+   ============================================================ */
+const state = {
+  view:"home",
+  sid:"",                 // 学籍番号（任意・端末内にのみ保存）
+  progress:{},            // tagId -> {seen, correct}
+  wrong:[],               // 復習用スナップショット
+  log:[],                 // 模試の履歴（直近10件）
+  storage:"unknown",      // "ok" | "off"
+  levelTag:null,          // 難易度選択画面で表示中のタグ
+  drill:null, exam:null
+};
+TAGS.forEach(t => state.progress[t.id] = {seen:0, correct:0});
+
+/* ---- 端末内への保存（localStorage）----
+   ブラウザの設定やプライベートモードでは使えないことがあるため、
+   失敗しても教材そのものは動き続けるようにしてある。           */
+const STORE_KEY = "ere-macro-drill-v1";
+function save(){
+  try{
+    localStorage.setItem(STORE_KEY, JSON.stringify({
+      v:1, sid:state.sid, progress:state.progress,
+      wrong:state.wrong, log:state.log, at:Date.now()
+    }));
+    state.storage = "ok";
+    return true;
+  }catch(err){ state.storage = "off"; return false; }
+}
+function load(){
+  let raw = null;
+  try{ raw = localStorage.getItem(STORE_KEY); state.storage = "ok"; }
+  catch(err){ state.storage = "off"; return; }
+  if(!raw) return;
+  try{
+    const d = JSON.parse(raw);
+    if(!d || d.v !== 1) return;
+    state.sid = typeof d.sid === "string" ? d.sid : "";
+    TAGS.forEach(t => {
+      const p = d.progress && d.progress[t.id];
+      if(p && typeof p.seen === "number" && typeof p.correct === "number")
+        state.progress[t.id] = {seen:p.seen, correct:p.correct};
+    });
+    if(Array.isArray(d.wrong)) state.wrong = d.wrong.filter(q => q && Array.isArray(q.choices));
+    if(Array.isArray(d.log)) state.log = d.log.slice(0,10);
+  }catch(err){ /* 壊れた保存データは無視して初期状態で続ける */ }
+}
+function clearSaved(){
+  try{ localStorage.removeItem(STORE_KEY); }catch(err){}
+  state.sid = ""; state.wrong = []; state.log = [];
+  TAGS.forEach(t => state.progress[t.id] = {seen:0, correct:0});
+}
+
+function materialize(q){
+  const g = (q.type === "gen") ? q.gen() : null;
+  const base = g
+    ? {stem:g.stem, give:g.give||"", giveHtml:g.giveHtml||"", choices:g.choices,
+       answer:g.answer, why:g.notes||[], explain:g.explain}
+    : {stem:q.stem, give:q.give||"", giveHtml:q.giveHtml||"", choices:q.choices,
+       answer:q.answer, why:q.why||[], explain:q.explain};
+  /* 正答位置が偏らないよう、固定問題も出題のたびに選択肢を並べ替える */
+  const order = shuffle(base.choices.map((_,i)=>i));
+  return {
+    id:q.id, tag:q.tag, level:q.level, gen:(q.type==="gen"),
+    stem:base.stem, give:base.give, giveHtml:base.giveHtml,
+    choices: order.map(i=>base.choices[i]),
+    answer:  order.indexOf(base.answer),
+    why:     order.map(i=>base.why[i]||""),
+    explain: base.explain
+  };
+}
+const tagName = id => (TAGS.find(t=>t.id===id)||{name:id}).name;
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const nl = s => esc(s).replace(/\n/g,"<br>");
+
+/* ============================================================
+   4. 画面
+   ============================================================ */
+const app = document.getElementById("app");
+const backBtn = document.getElementById("back");
+const barTitle = document.getElementById("barTitle");
+const timerEl = document.getElementById("timer");
+
+backBtn.addEventListener("click", () => {
+  if(state.exam && state.exam.running){
+    if(!confirm("模試を中断してホームにもどります。解答は記録されません。")) return;
+    stopTimer();
+  }
+  if(state.view === "drill"){ go("level"); return; }
+  go("home");
+});
+
+function go(view, payload){
+  state.view = view;
+  if(view === "home"){ stopTimer(); state.drill = null; state.exam = null; }
+  if(view === "level" && state.drill) state.levelTag = state.drill.tag;
+  render(payload);
+  window.scrollTo({top:0, behavior:"instant"});
+}
+
+function render(payload){
+  backBtn.hidden = (state.view === "home");
+  timerEl.hidden = !(state.view === "exam" && state.exam && state.exam.running);
+  const v = {home:viewHome, level:viewLevel, drill:viewDrill, exam:viewExam,
+             examResult:viewExamResult, review:viewReview, sheet:viewSheet}[state.view];
+  v(payload);
+}
+
+/* ---- ホーム ---- */
+function viewHome(){
+  barTitle.textContent = "マクロ経済学 演習";
+  const cards = TAGS.map(t => {
+    const pool = BANK.filter(q=>q.tag===t.id);
+    const cA = pool.filter(q=>q.level==="A").length;
+    const cB = pool.filter(q=>q.level==="B").length;
+    const cC = pool.filter(q=>q.level==="C").length;
+    const n = `${pool.length}問（基礎${cA}・標準${cB}${cC?"・応用"+cC:""}）`;
+    const p = state.progress[t.id];
+    const rate = p.seen ? Math.round(p.correct/p.seen*100) : 0;
+    const w = p.seen ? Math.max(4, rate) : 0;
+    return `<button class="tag" data-tag="${t.id}">
+      <span class="tag-head"><span class="tag-name">${esc(t.name)}</span><span class="tag-count">${n}</span></span>
+      <span class="tag-topics">${esc(t.topics)}</span>
+      <span class="meter"><i style="width:${w}%"></i></span>
+      <span class="tag-stat">${p.seen ? `${p.seen}問を解答／正答率 ${rate}％` : "まだ解答していません"}</span>
+    </button>`;
+  }).join("");
+
+  const coming = [
+    {n:"消費と投資", s:""},
+    {n:"貨幣と金融", s:""},
+    {n:"AD-AS・物価と失業", s:""},
+    {n:"国際マクロ", s:"国際収支、為替、開放経済の乗数、マンデル＝フレミング"},
+    {n:"経済成長", s:""},
+    {n:"景気循環と学説史", s:""}
+  ].map(t=>`<button class="tag" disabled><span class="tag-head"><span class="tag-name">${esc(t.n)}</span><span class="tag-count">準備中</span></span>${t.s?`<span class="tag-topics" style="margin-bottom:0">${esc(t.s)}</span>`:``}</button>`).join("");
+
+  const history = state.log.length ? `<div class="hist">${
+    state.log.slice(0,5).map(r=>`<div class="hist-row"><span>${esc(r.date)}</span><span>${r.correct} / ${r.total}</span></div>`).join("")
+  }</div>` : `<p class="hint" style="margin-top:10px">模試を受けると、結果がここに残ります。</p>`;
+
+  app.innerHTML = `
+    <div class="hero">
+      <h1>マクロ経済学 演習</h1>
+      <p>経済学検定（ERE）の四答択一形式にあわせた演習です。数値問題は解くたびに数字が変わるので、答えを覚えてしまうことなく何度でも練習できます。</p>
+    </div>
+    <div class="tags">${cards}</div>
+    <p class="hint">分野名をタップすると難易度を選べます。プールから最大10問がランダムに出題されるので、解き直すたびに組合せが変わります。</p>
+
+    <div class="sec">力だめし</div>
+    <div class="row">
+      <button class="btn primary" id="goExam">模試を始める<span>全分野から20問・制限時間20分・応用問題は含みません</span></button>
+      <button class="btn" id="goReview" ${state.wrong.length? "":"disabled"}><b>まちがえた問題を解き直す</b><span>${state.wrong.length ? state.wrong.length+"問たまっています" : "まちがえた問題がここに集まります"}</span></button>
+      <button class="btn" id="goSheet"><b>公式シート</b><span>この2分野で使う定義と公式のまとめ</span></button>
+    </div>
+
+    <div class="sec">学習記録</div>
+    <div class="card">
+      <label class="field">
+        <span>学籍番号（任意）</span>
+        <input id="sid" type="text" inputmode="latin" autocomplete="off" maxlength="20"
+               placeholder="例：2400000" value="${esc(state.sid)}">
+      </label>
+      <p class="hint" style="margin-top:10px">${
+        state.storage === "off"
+        ? "このブラウザでは保存が使えない設定になっています。進捗はページを閉じると消えるため、模試の結果はその都度コピーして控えてください。"
+        : "進捗はこのブラウザの中にだけ保存されます。学籍番号は模試の結果に書き出すためのもので、どこかへ送信されることはありません。"
+      }</p>
+      ${history}
+      <div class="row" style="margin-top:14px">
+        <button class="btn" id="reset"><b>学習記録を消す</b><span>進捗・復習リスト・模試履歴をすべて初期化します</span></button>
+      </div>
+    </div>
+
+    <div class="sec">今後追加する分野</div>
+    <div class="tags">${coming}</div>
+
+    <p class="foot">創価大学 マクロ経済学／ERE対策演習 第1版。問題は本教材のために作成したものです。</p>
+  `;
+  app.querySelectorAll("[data-tag]").forEach(b =>
+    b.addEventListener("click", () => { state.levelTag = b.dataset.tag; go("level"); }));
+  document.getElementById("goExam").addEventListener("click", startExam);
+  document.getElementById("goSheet").addEventListener("click", () => go("sheet"));
+  const rv = document.getElementById("goReview");
+  if(!rv.disabled) rv.addEventListener("click", startReview);
+
+  const sid = document.getElementById("sid");
+  sid.addEventListener("input", () => { state.sid = sid.value.trim(); });
+  sid.addEventListener("change", save);
+  sid.addEventListener("blur", save);
+
+  document.getElementById("reset").addEventListener("click", () => {
+    if(!confirm("学習記録をすべて消します。もとにもどせません。")) return;
+    clearSaved();
+    go("home");
+  });
+}
+
+/* ---- 分野別演習 ---- */
+const LEVELS = {
+  A:{label:"基礎", desc:"定義と基本的な計算を確認します"},
+  B:{label:"標準", desc:"ERE本試験に近い難易度です"},
+  C:{label:"応用", desc:"産業連関表など、踏み込んだ計算問題です"}
+};
+const DRAW = 10;   // 1回の演習で出す問題数の上限
+
+function viewLevel(){
+  const tag = state.levelTag;
+  barTitle.textContent = tagName(tag);
+  const pool = BANK.filter(q=>q.tag===tag);
+  const at = L => pool.filter(q=>q.level===L).length;
+  const btn = L => at(L)
+    ? `<button class="btn" data-lv="${L}"><b>${LEVELS[L].label}　${at(L)}問</b><span>${LEVELS[L].desc}${at(L)>DRAW?`／このうち${DRAW}問を出題`:""}</span></button>`
+    : "";
+  app.innerHTML = `
+    <div class="hero"><h1>${esc(tagName(tag))}</h1>
+    <p>難易度を選んでください。出題はプールからのランダム抽出なので、同じ難易度を選んでも毎回ちがう組合せになります。</p></div>
+    <div class="row">
+      ${btn("A")}${btn("B")}${btn("C")}
+      <button class="btn primary" data-lv="ALL">難易度を問わず${DRAW}問</button>
+    </div>`;
+  app.querySelectorAll("[data-lv]").forEach(b =>
+    b.addEventListener("click", () => startDrill(tag, b.dataset.lv)));
+}
+
+function startDrill(tag, level){
+  const pool = BANK.filter(q => q.tag===tag && (level==="ALL" || q.level===level));
+  if(!pool.length) return;
+  const qs = shuffle(pool).slice(0, DRAW);
+  state.drill = {tag, level, queue:qs, i:0, cur:materialize(qs[0]), answered:false, source:"drill"};
+  go("drill");
+}
+function startReview(){
+  if(!state.wrong.length) return;
+  state.drill = {tag:null, queue:null, i:0, list:state.wrong.slice(),
+                 cur:state.wrong[0], answered:false, source:"review"};
+  go("review");
+}
+
+function viewDrill(){
+  const d = state.drill;
+  barTitle.textContent = tagName(d.tag);
+  app.innerHTML = questionHTML(d.cur, d.i+1, d.queue.length) + `<div class="after" id="after"></div>`;
+  wireChoices(onDrillAnswer);
+}
+function viewReview(){
+  const d = state.drill;
+  barTitle.textContent = "まちがえた問題";
+  app.innerHTML = questionHTML(d.cur, d.i+1, d.list.length) + `<div class="after" id="after"></div>`;
+  wireChoices(onReviewAnswer);
+}
+
+function questionHTML(q, idx, total){
+  return `
+  <div class="qmeta">
+    <span class="chip no">${idx} / ${total}</span>
+    <span class="chip">${esc(tagName(q.tag))}</span>
+    <span class="chip">難易度 ${q.level}</span>
+    ${q.gen ? `<span class="chip gen">数値は毎回変わります</span>` : ``}
+  </div>
+  <div class="card">
+    <p class="stem">${esc(q.stem)}${q.give ? `<span class="give">${nl(q.give)}</span>` : ``}</p>
+    ${q.giveHtml ? `<div class="gtab">${q.giveHtml}</div>` : ``}
+    <ul class="choices" id="choices">
+      ${q.choices.map((c,i)=>`<li><button class="ch" data-i="${i}"><span class="n">${i+1}</span><span class="t">${esc(c)}</span></button></li>`).join("")}
+    </ul>
+  </div>`;
+}
+
+function wireChoices(handler){
+  document.querySelectorAll("#choices .ch").forEach(b =>
+    b.addEventListener("click", () => handler(Number(b.dataset.i)), {once:false}));
+}
+
+function revealAnswer(q, chosen){
+  const btns = [...document.querySelectorAll("#choices .ch")];
+  btns.forEach((b,i) => {
+    b.disabled = true;
+    if(i === q.answer) b.classList.add("ok");
+    else if(i === chosen) b.classList.add("ng");
+    const note = q.why && q.why[i];
+    if(note && i !== q.answer){
+      const s = document.createElement("span");
+      s.className = "note"; s.textContent = note;
+      b.querySelector(".t").appendChild(s);
+    }
+  });
+  const ok = chosen === q.answer;
+  return `<p class="verdict ${ok?"ok":"ng"}">${ok?"正解":"不正解　正解は "+(q.answer+1)}</p>
+          <p class="explain">${nl(q.explain)}</p>`;
+}
+
+function onDrillAnswer(chosen){
+  const d = state.drill;
+  if(d.answered) return;
+  d.answered = true;
+  const q = d.cur, ok = chosen === q.answer;
+  const p = state.progress[q.tag];
+  p.seen++; if(ok) p.correct++;
+  if(!ok && !state.wrong.some(w => w.id===q.id && w.stem===q.stem)) state.wrong.push(q);
+  save();
+
+  const last = d.i >= d.queue.length-1;
+  document.getElementById("after").innerHTML = revealAnswer(q, chosen) + `
+    <div class="row" style="margin-top:18px">
+      <button class="btn primary" id="next">${last ? "終えて難易度の選択にもどる" : "次の問題"}</button>
+    </div>`;
+  document.getElementById("next").addEventListener("click", () => {
+    if(last){ go("level"); return; }
+    d.i++; d.cur = materialize(d.queue[d.i]); d.answered = false; go("drill");
+  });
+}
+
+function onReviewAnswer(chosen){
+  const d = state.drill;
+  if(d.answered) return;
+  d.answered = true;
+  const q = d.cur, ok = chosen === q.answer;
+  if(ok) state.wrong = state.wrong.filter(w => !(w.id===q.id && w.stem===q.stem));
+  save();
+  const last = d.i >= d.list.length-1;
+  document.getElementById("after").innerHTML = revealAnswer(q, chosen) +
+    (ok ? `<p class="hint">正解したので、この問題は復習リストから外しました。</p>` : ``) + `
+    <div class="row" style="margin-top:18px">
+      <button class="btn primary" id="next">${last ? "復習を終える" : "次の問題"}</button>
+    </div>`;
+  document.getElementById("next").addEventListener("click", () => {
+    if(last){ go("home"); return; }
+    d.i++; d.cur = d.list[d.i]; d.answered = false; go("review");
+  });
+}
+
+/* ---- 模試 ---- */
+let timerId = null;
+function startExam(){
+  const pool = BANK.filter(q => q.level !== "C");   // 応用問題は本試験の難易度から外れるため模試には含めない
+  const qs = shuffle(pool).slice(0, Math.min(20, pool.length)).map(materialize);
+  state.exam = {qs, i:0, picks:new Array(qs.length).fill(null), left:20*60, running:true};
+  startTimer();
+  go("exam");
+}
+function startTimer(){
+  stopTimer();
+  timerId = setInterval(() => {
+    const e = state.exam;
+    if(!e || !e.running) return stopTimer();
+    e.left--;
+    paintTimer();
+    if(e.left <= 0){ finishExam(); }
+  }, 1000);
+  paintTimer();
+}
+function stopTimer(){ if(timerId){ clearInterval(timerId); timerId = null; } }
+function paintTimer(){
+  const e = state.exam; if(!e) return;
+  const m = Math.max(0, Math.floor(e.left/60)), s = Math.max(0, e.left%60);
+  timerEl.textContent = "残り " + m + ":" + String(s).padStart(2,"0");
+  timerEl.classList.toggle("low", e.left <= 120);
+}
+
+function viewExam(){
+  const e = state.exam, q = e.qs[e.i];
+  barTitle.textContent = "模試";
+  timerEl.hidden = false;
+  const last = e.i >= e.qs.length-1;
+  app.innerHTML = questionHTML(q, e.i+1, e.qs.length) + `
+    <p class="hint">正誤と解説は、全問終えたあとにまとめて表示します。</p>
+    <div class="row" style="margin-top:16px">
+      <button class="btn primary" id="next">${last ? "解答を終えて採点する" : "次の問題"}</button>
+      ${e.i>0 ? `<button class="btn" id="prev"><b>前の問題にもどる</b></button>` : ``}
+    </div>`;
+  document.querySelectorAll("#choices .ch").forEach(b => {
+    if(Number(b.dataset.i) === e.picks[e.i]) b.classList.add("picked");
+    b.addEventListener("click", () => {
+      e.picks[e.i] = Number(b.dataset.i);
+      document.querySelectorAll("#choices .ch").forEach(x=>x.classList.remove("picked"));
+      b.classList.add("picked");
+    });
+  });
+  document.getElementById("next").addEventListener("click", () => {
+    if(last){ finishExam(); return; }
+    e.i++; go("exam");
+  });
+  const pv = document.getElementById("prev");
+  if(pv) pv.addEventListener("click", () => { e.i--; go("exam"); });
+}
+
+function finishExam(){
+  const e = state.exam;
+  e.running = false; stopTimer();
+  e.qs.forEach((q,i) => {
+    const p = state.progress[q.tag];
+    p.seen++;
+    if(e.picks[i] === q.answer) p.correct++;
+    else if(!state.wrong.some(w => w.id===q.id && w.stem===q.stem)) state.wrong.push(q);
+  });
+  const correct = e.qs.filter((q,i)=>e.picks[i]===q.answer).length;
+  state.log.unshift({
+    date:new Date().toLocaleDateString("ja-JP")+" "+new Date().toLocaleTimeString("ja-JP",{hour:"2-digit",minute:"2-digit"}),
+    correct, total:e.qs.length
+  });
+  state.log = state.log.slice(0,10);
+  save();
+  go("examResult");
+}
+
+function viewExamResult(){
+  const e = state.exam;
+  barTitle.textContent = "模試の結果";
+  timerEl.hidden = true;
+  const correct = e.qs.filter((q,i)=>e.picks[i]===q.answer).length;
+  const byTag = {};
+  e.qs.forEach((q,i)=>{
+    byTag[q.tag] = byTag[q.tag] || {n:0,c:0};
+    byTag[q.tag].n++; if(e.picks[i]===q.answer) byTag[q.tag].c++;
+  });
+  const bars = Object.keys(byTag).map(t=>{
+    const b = byTag[t], r = Math.round(b.c/b.n*100);
+    return `<div class="bar-row">
+      <div class="lab"><span>${esc(tagName(t))}</span><span>${b.c}/${b.n}（${r}％）</span></div>
+      <div class="track"><i style="width:${Math.max(2,r)}%"></i></div>
+    </div>`;
+  }).join("");
+
+  const used = 20*60 - Math.max(0,e.left);
+  const report = "ERE対策マクロ演習　模試の結果\n"
+    + (state.sid ? "学籍番号：" + state.sid + "\n" : "")
+    + "日時：" + new Date().toLocaleString("ja-JP") + "\n"
+    + "得点：" + correct + " / " + e.qs.length + "（" + Math.round(correct/e.qs.length*100) + "％）\n"
+    + "所要時間：" + Math.floor(used/60) + "分" + (used%60) + "秒\n"
+    + Object.keys(byTag).map(t=>"　"+tagName(t)+"："+byTag[t].c+"/"+byTag[t].n).join("\n") + "\n"
+    + "誤答した問題番号：" + (e.qs.map((q,i)=>e.picks[i]===q.answer?null:(i+1)).filter(Boolean).join("、") || "なし");
+
+  const review = e.qs.map((q,i)=>{
+    const ok = e.picks[i]===q.answer;
+    const picked = e.picks[i]===null ? "未解答" : "あなたの解答 "+(e.picks[i]+1);
+    return `<div class="qmeta"><span class="chip no">問${i+1}</span><span class="chip">${esc(tagName(q.tag))}</span>
+      <span class="chip" style="${ok?"color:var(--correct);border-color:var(--correct)":"color:var(--wrong);border-color:var(--wrong)"}">${ok?"正解":"不正解"}</span></div>
+      <div class="card">
+        <p class="stem">${esc(q.stem)}${q.give?`<span class="give">${nl(q.give)}</span>`:``}</p>
+        ${q.giveHtml ? `<div class="gtab">${q.giveHtml}</div>` : ``}
+        <ul class="choices">${q.choices.map((c,j)=>`<li><button class="ch" disabled ${j===q.answer?'style="border-color:var(--correct);background:var(--correct-soft)"':(j===e.picks[i]?'style="border-color:var(--wrong);background:var(--wrong-soft)"':'')}><span class="n">${j+1}</span><span class="t">${esc(c)}${(q.why&&q.why[j]&&j!==q.answer)?`<span class="note">${esc(q.why[j])}</span>`:``}</span></button></li>`).join("")}</ul>
+        <p class="verdict ${ok?"ok":"ng"}">正解 ${q.answer+1}　／　${picked}</p>
+        <p class="explain">${nl(q.explain)}</p>
+      </div>`;
+  }).join("");
+
+  app.innerHTML = `
+    <div class="hero" style="padding-bottom:6px">
+      <div class="score">${correct}<small> / ${e.qs.length}</small></div>
+      <p>所要時間 ${Math.floor(used/60)}分${used%60}秒${e.left<=0?"（時間切れで終了）":""}</p>
+    </div>
+    <div class="bars">${bars}</div>
+    <div class="sec">結果を提出する</div>
+    <textarea id="report" readonly>${esc(report)}</textarea>
+    <div class="row" style="margin-top:10px">
+      <button class="btn" id="copy"><b>結果をコピーする</b><span>Classroomの提出欄に貼り付けてください</span></button>
+    </div>
+    <div class="sec">解説</div>
+    ${review}
+    <div class="row" style="margin-top:24px">
+      <button class="btn primary" id="home">ホームにもどる</button>
+    </div>`;
+  document.getElementById("home").addEventListener("click", ()=>go("home"));
+  document.getElementById("copy").addEventListener("click", function(){
+    const ta = document.getElementById("report");
+    ta.select(); ta.setSelectionRange(0, 99999);
+    let done = false;
+    try{ done = document.execCommand("copy"); }catch(err){ done = false; }
+    if(!done && navigator.clipboard){ navigator.clipboard.writeText(ta.value).then(()=>{}); done = true; }
+    this.querySelector("b").textContent = done ? "コピーしました" : "上の文章を選んでコピーしてください";
+  });
+}
+
+/* ---- 公式シート ---- */
+function viewSheet(){
+  barTitle.textContent = "公式シート";
+  app.innerHTML = `
+  <div class="hero" style="padding-bottom:4px"><h1>公式シート</h1>
+  <p>この2分野で使う定義と公式です。演習中に迷ったらここにもどってください。</p></div>
+  <div class="fs">
+    <h3>国民経済計算</h3>
+    <dl>
+      <dt>支出面の恒等式</dt><dd>Y ＝ C ＋ I ＋ G ＋ （X − M）</dd>
+      <dt>国民総所得</dt><dd>GNI ＝ GDP ＋ 海外からの純要素所得<em>GDPは国内概念、GNIは国民（居住者）概念</em></dd>
+      <dt>国内純生産</dt><dd>NDP ＝ GDP − 固定資本減耗</dd>
+      <dt>要素費用表示の国民所得</dt><dd>NI ＝ NNP − 間接税 ＋ 補助金</dd>
+      <dt>分配面のGDP</dt><dd>雇用者報酬 ＋ 営業余剰・混合所得 ＋ 固定資本減耗 ＋ （生産・輸入品に課される税 − 補助金）</dd>
+      <dt>総と純、国内と国民</dt><dd>NDP ＝ GDP − 固定資本減耗<br>GNI ＝ GDP ＋ 海外からの所得の純受取<br>NNI ＝ GNI − 固定資本減耗<em>「総か純か」は固定資本減耗、「国内か国民か」は海外からの純所得で切り替わる</em></dd>
+      <dt>国内総所得</dt><dd>実質GDI ＝ 実質GDP ＋ 交易利得<em>名目では交易利得は定義されず、名目GDIは名目GDPに一致する</em></dd>
+      <dt>貯蓄投資バランス</dt><dd>S − I ＝ （G − T） ＋ （X − M）<em>民間の貯蓄超過＝財政赤字＋経常黒字</em></dd>
+      <dt>GDPは付加価値の合計</dt><dd>付加価値 ＝ 産出額 − 中間投入<em>合計すると最終生産物の価額に一致する</em></dd>
+    </dl>
+    <h3>物価と実質化</h3>
+    <dl>
+      <dt>GDPデフレーター</dt><dd>名目GDP ÷ 実質GDP × 100<em>当期のバスケットで加重するパーシェ型。輸入品は直接には入らない</em></dd>
+      <dt>消費者物価指数</dt><dd>基準年のバスケットで加重するラスパイレス型<em>家計が買うものが対象で、輸入品を含む</em></dd>
+      <dt>実質成長率の近似</dt><dd>実質成長率 ≒ 名目成長率 − デフレーター上昇率</dd>
+      <dt>名目GDPと実質GDP</dt><dd>名目 ＝ Σ（比較年の価格 × 比較年の数量）<br>実質 ＝ Σ（基準年の価格 × 比較年の数量）</dd>
+    </dl>
+    <h3>IS-LM分析</h3>
+    <dl>
+      <dt>IS曲線</dt><dd>Y ＝ （C₀ ＋ I₀ ＋ G − br） ÷ （1 − c）<em>財市場の均衡。右下がり。利子率の項にも乗数がかかる</em></dd>
+      <dt>LM曲線</dt><dd>Y ＝ （M/P ＋ hr） ÷ k<em>貨幣市場の均衡。右上がり</em></dd>
+      <dt>傾きと弾力性</dt><dd>投資の利子弾力性が大きいほどISは緩やか<br>貨幣需要の利子弾力性が大きいほどLMは緩やか</dd>
+      <dt>IS-LMの政府支出乗数</dt><dd>1 ÷ ｛（1 − c） ＋ bk/h｝<em>45度線分析の 1/(1−c) より小さい。差がクラウディングアウト</em></dd>
+      <dt>極端なケース</dt><dd>LM水平（流動性のわな）：財政政策が最大、金融政策は無効<br>LM垂直：財政政策は無効（完全なクラウディングアウト）<br>IS垂直（投資が利子率に無反応）：金融政策は無効</dd>
+    </dl>
+    <h3>産業連関表（応用）</h3>
+    <dl>
+      <dt>需給バランス</dt><dd>x ＝ Ax ＋ f<em>生産額＝中間需要＋最終需要</em></dd>
+      <dt>生産誘発</dt><dd>x ＝ （I − A）⁻¹ f<em>最終需要が1増えると、波及を含めて1より大きい生産が誘発される</em></dd>
+      <dt>価格モデル</dt><dd>各部門の価格上昇率 ＝ Σ（投入物の費用シェア × その投入物の価格上昇率）<em>輸入原材料の値上がりは、直接使う分と他部門を経由する分の両方で効く</em></dd>
+    </dl>
+    <h3>45度線分析と乗数</h3>
+    <dl>
+      <dt>均衡国民所得</dt><dd>Y ＝ （C₀ ＋ I ＋ G） ÷ （1 − c）<em>独立支出の合計 × 乗数</em></dd>
+      <dt>投資乗数・政府支出乗数</dt><dd>1 ÷ （1 − c）</dd>
+      <dt>減税乗数</dt><dd>− c ÷ （1 − c）<em>絶対値は政府支出乗数より小さい</em></dd>
+      <dt>均衡予算乗数</dt><dd>1<em>cの値によらずつねに1</em></dd>
+      <dt>定額税がある場合</dt><dd>Y ＝ （C₀ − cT ＋ I ＋ G） ÷ （1 − c）<em>独立支出を下げるのは T ではなく cT</em></dd>
+      <dt>比例所得税がある場合</dt><dd>1 ÷ ｛1 − c（1 − t）｝<em>税率が高いほど乗数は小さい（ビルトイン・スタビライザー）</em></dd>
+      <dt>デフレギャップ</dt><dd>（Yf − Y） × （1 − c）<em>所得の不足額そのものではなく、必要な需要の追加額</em></dd>
+    </dl>
+    <p class="hint">開放経済の乗数 1 ÷ （1 − c ＋ m） は、国際マクロの分野で扱います。</p>
+  </div>
+  <div class="row" style="margin-top:26px"><button class="btn primary" id="home">ホームにもどる</button></div>`;
+  document.getElementById("home").addEventListener("click", ()=>go("home"));
+}
+
+load();
+go("home");
+</script>
+</body>
+</html>
