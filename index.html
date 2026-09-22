@@ -163,6 +163,9 @@ textarea{
 .gtab th,.gtab td{border:1px solid var(--line);padding:6px 8px;text-align:right;line-height:1.5}
 .gtab th{background:var(--paper);font-weight:600;text-align:center;color:var(--ink-soft)}
 .gtab tr>th:first-child{text-align:left;white-space:nowrap}
+.wip{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.02em;padding:2px 8px;border-radius:999px;
+  background:var(--gen-soft);color:var(--gen);border:1px solid #e4d6b6;vertical-align:2px;margin-left:6px;font-family:var(--gothic)}
+.wipnote{background:var(--gen-soft);border:1px solid #e4d6b6;color:#6b4d10;border-radius:8px;padding:10px 13px;font-size:13.5px;line-height:1.7;margin:14px 0 0}
 .gamerow{display:flex;flex-direction:column;gap:10px}
 .game{
   display:flex;align-items:center;gap:13px;text-decoration:none;color:inherit;
@@ -336,21 +339,14 @@ function viewHome(){
     const rate = p.seen ? Math.round(p.correct/p.seen*100) : 0;
     const w = p.seen ? Math.max(4, rate) : 0;
     return `<button class="tag" data-tag="${t.id}">
-      <span class="tag-head"><span class="tag-name">${esc(t.name)}</span><span class="tag-count">${n}</span></span>
+      <span class="tag-head"><span class="tag-name">${esc(t.name)}${t.wip?'<span class="wip">作成途中</span>':''}</span><span class="tag-count">${n}</span></span>
       <span class="tag-topics">${esc(t.topics)}</span>
       <span class="meter"><i style="width:${w}%"></i></span>
       <span class="tag-stat">${p.seen ? `${p.seen}問を解答／正答率 ${rate}％` : "まだ解答していません"}</span>
     </button>`;
   }).join("");
 
-  const coming = [
-    {n:"消費と投資", s:""},
-    {n:"貨幣と金融", s:""},
-    {n:"AD-AS・物価と失業", s:""},
-    {n:"国際マクロ", s:"国際収支、為替、開放経済の乗数、マンデル＝フレミング"},
-    {n:"経済成長", s:""},
-    {n:"景気循環と学説史", s:""}
-  ].map(t=>`<button class="tag" disabled><span class="tag-head"><span class="tag-name">${esc(t.n)}</span><span class="tag-count">準備中</span></span>${t.s?`<span class="tag-topics" style="margin-bottom:0">${esc(t.s)}</span>`:``}</button>`).join("");
+
 
   const history = state.log.length ? `<div class="hist">${
     state.log.slice(0,5).map(r=>`<div class="hist-row"><span>${esc(r.date)}</span><span>${r.correct} / ${r.total}</span></div>`).join("")
@@ -368,13 +364,13 @@ function viewHome(){
 
     <div class="sec">分野から</div>
     <div class="tags">${tagCards}</div>
-    <p class="hint">回をまたいで、分野ごとに演習します。難易度を選ぶと、プールから最大10問がランダムに出題されます。</p>
+    <p class="hint">回をまたいで、分野ごとに演習します。難易度を選ぶと、プールから最大10問がランダムに出題されます。「作成途中」の分野も解くことはできますが、問題の追加と調整を続けているところです。</p>
 
     <div class="sec">力だめし</div>
     <div class="row">
       <button class="btn primary" id="goExam">模試を始める<span>全分野から20問・制限時間20分・応用問題は含みません</span></button>
       <button class="btn" id="goReview" ${state.wrong.length? "":"disabled"}><b>まちがえた問題を解き直す</b><span>${state.wrong.length ? state.wrong.length+"問たまっています" : "まちがえた問題がここに集まります"}</span></button>
-      <button class="btn" id="goSheet"><b>公式シート</b><span>定義と公式のまとめ</span></button>
+      <button class="btn" id="goSheet"><b>公式シート</b><span>定義と公式のまとめ（国民経済計算・45度線・IS-LM・産業連関表）</span></button>
     </div>
 
     <div class="sec">気分転換</div>
@@ -409,8 +405,6 @@ function viewHome(){
       </div>
     </div>
 
-    <div class="sec">今後追加する分野</div>
-    <div class="tags">${coming}</div>
 
     <p class="foot">創価大学 マクロ経済学／ERE対策演習。問題は本教材のために作成したものです。</p>
   `;
@@ -453,7 +447,8 @@ function viewLevel(){
     : "";
   app.innerHTML = `
     <div class="hero"><h1>${esc(tagName(tag))}</h1>
-    <p>難易度を選んでください。出題はプールからのランダム抽出なので、同じ難易度を選んでも毎回ちがう組合せになります。</p></div>
+    <p>難易度を選んでください。出題はプールからのランダム抽出なので、同じ難易度を選んでも毎回ちがう組合せになります。</p>
+    ${(TAGS.find(t=>t.id===tag)||{}).wip ? '<p class="wipnote">この分野は作成途中です。問題を解くことはできますが、今後も問題の追加や表現の調整を行います。</p>' : ''}</div>
     <div class="row">
       ${btn("A")}${btn("B")}${btn("C")}
       <button class="btn primary" data-lv="ALL">難易度を問わず${DRAW}問</button>
@@ -507,6 +502,7 @@ function questionHTML(q, idx, total){
     <span class="chip">${esc(tagName(q.tag))}</span>
     <span class="chip">難易度 ${q.level}</span>
     ${q.gen ? `<span class="chip gen">数値は毎回変わります</span>` : ``}
+    ${(TAGS.find(t=>t.id===q.tag)||{}).wip ? `<span class="chip">作成途中の分野</span>` : ``}
   </div>
   <div class="card">
     <p class="stem">${esc(q.stem)}${q.give ? `<span class="give">${nl(q.give)}</span>` : ``}</p>

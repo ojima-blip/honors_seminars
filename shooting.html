@@ -169,6 +169,7 @@ text.lab{font-weight:800;fill:#12233a;stroke:#fff;paint-order:stroke;text-anchor
   .ritem.on .bx{background:var(--accent);border-color:var(--accent)}
   .ritem small{display:block;color:var(--sub);font-size:11.5px;margin-top:2px}
   .rnum{flex:none;color:var(--sub);font-size:12px}
+  .rwip{display:inline-block;font-size:10.5px;font-weight:700;color:#0b1026;background:#ffd54a;border-radius:999px;padding:1px 7px;margin-left:4px;vertical-align:1px}
   .rwarn{color:var(--bad);font-size:12.5px;min-height:1.4em;margin:2px 0 8px}
   /* 問題オーバーレイ */
   .ovl .qstem{font-size:14.5px;line-height:1.75;text-align:left;width:100%;max-width:440px;margin:2px auto 0}
@@ -198,7 +199,8 @@ text.lab{font-weight:800;fill:#12233a;stroke:#fff;paint-order:stroke;text-anchor
   <!-- 出題範囲えらび -->
   <div id="range">
     <p class="lead">敵をたおして出てきたアイテムを取ると、<b>マクロ経済学の問題</b>が出ます。<br>
-      まず、どこから出題するかをえらんでください。<b>1つ以上</b>えらぶ必要があります。</p>
+      まず、どこから出題するかをえらんでください。<b>1つ以上</b>えらぶ必要があります。<br>
+      <span style="font-size:12px;color:var(--sub)">「作成途中」の分野も出題されますが、問題の追加・調整を続けています。</span></p>
     <div id="rlist"></div>
     <div class="rwarn" id="rwarn"></div>
     <button class="advbtn" id="rgo">⚔️ <span>この範囲ではじめる<small id="rsum"></small></span></button>
@@ -284,7 +286,7 @@ function sizeCanvas(){
    ======================================================== */
 const RANGES = [].concat(
   LECTURES.map(l=>({id:l.id, kind:'lec', name:l.label+'　'+l.title, sub:l.sub})),
-  TAGS.map(t=>({id:t.id, kind:'tag', name:t.name, sub:t.topics}))
+  TAGS.map(t=>({id:t.id, kind:'tag', name:t.name, sub:t.topics, wip:!!t.wip}))
 );
 const rangeCount = r => BANK.filter(q => r.kind==='lec' ? q.lec===r.id : q.tag===r.id).length;
 
@@ -323,7 +325,7 @@ function showRange(){
     const b=document.createElement('button');
     b.className='ritem'+(sel.has(r.id)?' on':'');
     b.innerHTML='<span class="bx">'+(sel.has(r.id)?'\u2713':'')+'</span>'
-      + '<span style="flex:1">'+r.name+'<small>'+(r.sub||'')+'</small></span>'
+      + '<span style="flex:1">'+r.name+(r.wip?' <span class="rwip">作成途中</span>':'')+'<small>'+(r.sub||'')+'</small></span>'
       + '<span class="rnum">'+rangeCount(r)+'問</span>';
     b.onclick=()=>{
       if(sel.has(r.id)){
